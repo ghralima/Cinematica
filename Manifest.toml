@@ -485,6 +485,12 @@ git-tree-sha1 = "c7f1c695e06c01b95a67f0cd1d34994f3e7db104"
 uuid = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
 version = "1.2.1"
 
+[[Latexify]]
+deps = ["Formatting", "InteractiveUtils", "LaTeXStrings", "MacroTools", "Markdown", "Printf", "Requires"]
+git-tree-sha1 = "a4b12a1bd2ebade87891ab7e36fdbce582301a92"
+uuid = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
+version = "0.15.6"
+
 [[LazyArtifacts]]
 deps = ["Artifacts", "Pkg"]
 uuid = "4af54fe1-eca0-43a8-85a7-787d91b784e3"
@@ -574,6 +580,12 @@ deps = ["Artifacts", "IntelOpenMP_jll", "JLLWrappers", "LazyArtifacts", "Libdl",
 git-tree-sha1 = "c253236b0ed414624b083e6b72bfe891fbd2c7af"
 uuid = "856f044c-d86e-5d09-b602-aeab76dc8ba7"
 version = "2021.1.1+1"
+
+[[MacroTools]]
+deps = ["Markdown", "Random"]
+git-tree-sha1 = "6a8a2a625ab0dea913aba95c11370589e0239ff0"
+uuid = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
+version = "0.5.6"
 
 [[Makie]]
 deps = ["Animations", "Artifacts", "ColorBrewer", "ColorSchemes", "ColorTypes", "Colors", "Contour", "Distributions", "DocStringExtensions", "FFMPEG", "FileIO", "FixedPointNumbers", "Formatting", "FreeType", "FreeTypeAbstraction", "GeometryBasics", "GridLayoutBase", "ImageIO", "IntervalSets", "Isoband", "KernelDensity", "LinearAlgebra", "MakieCore", "Markdown", "Match", "Observables", "Packing", "PlotUtils", "PolygonOps", "Printf", "Random", "Serialization", "Showoff", "SignedDistanceFields", "SparseArrays", "StaticArrays", "Statistics", "StatsBase", "StatsFuns", "StructArrays", "UnicodeFun"]
@@ -988,6 +1000,12 @@ deps = ["ConstructionBase", "Dates", "LinearAlgebra", "Random"]
 git-tree-sha1 = "b3682a0559219355f1e3c8024e9f97adce2d4623"
 uuid = "1986cc42-f94f-5a68-af5c-568840ba703d"
 version = "1.8.0"
+
+[[UnitfulLatexify]]
+deps = ["LaTeXStrings", "Latexify", "Unitful"]
+git-tree-sha1 = "6b7e901f93bd528b8183ef4fa0f37e4c51986614"
+uuid = "45397f5d-5981-4c77-b2b3-fc36d6e9b728"
+version = "1.5.2"
 
 [[WGLMakie]]
 deps = ["Colors", "FileIO", "FreeTypeAbstraction", "GeometryBasics", "Hyperscript", "ImageMagick", "JSServe", "LinearAlgebra", "Makie", "Observables", "ShaderAbstractions", "StaticArrays"]
