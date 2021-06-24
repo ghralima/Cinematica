@@ -778,7 +778,7 @@ begin
 		return matriz_rotacao * p
 	end
 	
-end
+end;
 
 # ╔═╡ aa1a67b0-ce49-4144-beb0-f83c24c892df
 begin
@@ -920,18 +920,6 @@ begin
 	fig_04
 end
 
-# ╔═╡ 0abd1d1e-33d1-407b-80c6-30a7e83a78f8
-(s1_2D + s0_2D)/2
-
-# ╔═╡ cb08eb45-1d13-430f-a644-561349b648fc
-xx = pos3D(3u"ft", 2u"m", 3.2u"μm")
-
-# ╔═╡ c1ae0990-ad21-42e6-808e-2c559c2f6dfd
-Unitful.L/Unitful.T
-
-# ╔═╡ 88ee8ff9-91f3-4cec-a583-f2591762cfb9
-[rand(-10:10, Point2) for i ∈ 1:5]
-
 # ╔═╡ Cell order:
 # ╟─ec4b2a81-898e-41a4-b0db-76ddf5d821e6
 # ╟─960d6d9b-6684-4baa-8c5f-a0f5ec34b05c
@@ -1014,7 +1002,3 @@ Unitful.L/Unitful.T
 # ╟─21e0a4f1-5a1f-4572-84c6-2f34d7d27fee
 # ╟─183aa576-721b-4dd4-a326-cb4fcedbd380
 # ╟─6e18b6b3-3b6f-47a9-b2f4-f6117db01ffc
-# ╠═0abd1d1e-33d1-407b-80c6-30a7e83a78f8
-# ╠═cb08eb45-1d13-430f-a644-561349b648fc
-# ╠═c1ae0990-ad21-42e6-808e-2c559c2f6dfd
-# ╠═88ee8ff9-91f3-4cec-a583-f2591762cfb9
