@@ -1,6 +1,6 @@
 Anotações criadas para a disciplina de Física 1 do CEFET-MG - Unidade Contagem, utilizando Pluto notebook.
 
-Caderno: 1_1_posicao.jl
+Caderno: 1_posicao.jl
 # 1. CINEMÁTICA
 
 ## 1.1. POSIÇÃO X DISTÂNCIA
@@ -17,7 +17,7 @@ Caderno: 1_1_posicao.jl
 
 #### Distância e posição relativa entre pontos em 3D.
 
-Caderno: 1_2_deslocamento.jl
+Caderno: 2_deslocamento.jl
 ## 1.2. Deslocamento x distância total percorrida
 
 ### 1.2.1. Deslocamento em 1D
@@ -31,3 +31,15 @@ Caderno: 1_2_deslocamento.jl
 ### 1.2.3. Deslocamento em 3D
 
 #### Distância total percorrida em 3D
+
+Caderno: 3_velocidade_media.jl
+
+## 1.3. Instante de tempo e intervalo de tempo
+
+## 1.4. Velocidade média
+
+### 1.4.1. Conversão de unidades m/s <-> km/h
+
+### 1.4.2. Velocidade média em 1d
+
+### 1.4.3. Velocidade média em 2d
