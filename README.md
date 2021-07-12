@@ -43,3 +43,15 @@ Caderno: 3_velocidade_media.jl
 ### 1.4.2. Velocidade média em 1d
 
 ### 1.4.3. Velocidade média em 2d
+
+Caderno 4_movimento_retilineo_uniforme_1.jl
+
+## 1.5. Movimento retilíneo uniforme (MRU)
+
+### 1.5.1. Posição em função do tempo no MRU
+
+### 1.5.2. Inclinação da reta no gráfico de posição x tempo
+
+### 1.5.3. Posição instantânea
+
+#### 1.5.4. Velocidade instantânea
