@@ -7,15 +7,7 @@ using InteractiveUtils
 # ╔═╡ 912a438e-2163-4f6f-9fe5-dcac17e45e6a
 begin
 	using Pkg
-	Pkg.activate(mktempdir())
- 	Pkg.add([
- 		Pkg.PackageSpec(name="CairoMakie", version="0.6"),
- 		Pkg.PackageSpec(name="PlutoUI", version="0.7"),
- 		Pkg.PackageSpec(name="LaTeXStrings", version="1.2"),
- 		Pkg.PackageSpec(name="HypertextLiteral", version="0.8"),
-		Pkg.PackageSpec(name="Unitful", version="1.8"),
-		Pkg.PackageSpec(name="Latexify", version="0.15"),
-		Pkg.PackageSpec(name="UnitfulLatexify", version="1.5")
+	Pkg.activate(".")
 end
 
 # ╔═╡ 0f796ad0-d790-11eb-31ac-5fee2b23265c

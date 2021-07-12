@@ -16,13 +16,7 @@ end
 # ╔═╡ c0c2b95c-8d6d-4219-9fe8-b28c6b05f5e0
 begin
  	import Pkg
- 	Pkg.activate(mktempdir())
- 	Pkg.add([
- 		Pkg.PackageSpec(name="CairoMakie", version="0.6"),
- 		Pkg.PackageSpec(name="PlutoUI", version="0.7"),
- 		Pkg.PackageSpec(name="LaTeXStrings", version="1.2"),
- 		Pkg.PackageSpec(name="HypertextLiteral", version="0.7"),
- 	])
+ 	Pkg.activate(".")
 end
 
 # ╔═╡ 6c978cdd-a550-4d0f-97c4-63741ef2010c
@@ -33,13 +27,6 @@ begin
 	using HypertextLiteral
 	using LinearAlgebra, Random
 end	
-
-# ╔═╡ 57ce370a-3a2c-4424-bd6c-79962362768d
-md"""
-#### Inicializando pacotes
-
-_A instalação dos pacotes necessários para o uso deste caderno pode demorar alguns minutos. Por favor, aguarde!_
-"""
 
 # ╔═╡ 39613139-84d2-4843-acab-45f02914ee90
 PlutoUI.TableOfContents(title = "Índice", depth = 4, aside = true)
@@ -937,7 +924,6 @@ escrever_posicao(ponto_3B, "B", "cm")
 escrever_posicao(ponto_3A-ponto_3B, "A_{B}", "cm")
 
 # ╔═╡ Cell order:
-# ╟─57ce370a-3a2c-4424-bd6c-79962362768d
 # ╠═c0c2b95c-8d6d-4219-9fe8-b28c6b05f5e0
 # ╠═6c978cdd-a550-4d0f-97c4-63741ef2010c
 # ╠═39613139-84d2-4843-acab-45f02914ee90

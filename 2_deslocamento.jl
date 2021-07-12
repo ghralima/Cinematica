@@ -16,16 +16,7 @@ end
 # ╔═╡ 960d6d9b-6684-4baa-8c5f-a0f5ec34b05c
 begin
  	import Pkg
- 	Pkg.activate(mktempdir())
- 	Pkg.add([
- 		Pkg.PackageSpec(name="CairoMakie", version="0.6"),
- 		Pkg.PackageSpec(name="PlutoUI", version="0.7"),
- 		Pkg.PackageSpec(name="LaTeXStrings", version="1.2"),
- 		Pkg.PackageSpec(name="HypertextLiteral", version="0.8"),
-		Pkg.PackageSpec(name="Unitful", version="1.8"),
-		Pkg.PackageSpec(name="Latexify", version="0.15"),
-		Pkg.PackageSpec(name="UnitfulLatexify", version="1.5")
- 	])
+ 	Pkg.activate(".")
 end
 
 # ╔═╡ e1aa4440-cf69-11eb-1dd2-1b847285684d
@@ -35,13 +26,6 @@ begin
 	using LinearAlgebra, HypertextLiteral, PlutoUI
 	TableOfContents(title = "Índice", depth = 4)
 end
-
-# ╔═╡ ec4b2a81-898e-41a4-b0db-76ddf5d821e6
-md"""
-#### Inicializando pacotes
-
-_A instalação dos pacotes necessários para o uso deste caderno pode demorar alguns minutos. Por favor, aguarde!_
-"""
 
 # ╔═╡ 7db9af1c-de19-4e79-978b-3109a48d427b
 CairoMakie.activate!(type = "svg")
@@ -921,9 +905,8 @@ begin
 end
 
 # ╔═╡ Cell order:
-# ╟─ec4b2a81-898e-41a4-b0db-76ddf5d821e6
-# ╟─960d6d9b-6684-4baa-8c5f-a0f5ec34b05c
-# ╟─e1aa4440-cf69-11eb-1dd2-1b847285684d
+# ╠═960d6d9b-6684-4baa-8c5f-a0f5ec34b05c
+# ╠═e1aa4440-cf69-11eb-1dd2-1b847285684d
 # ╟─7db9af1c-de19-4e79-978b-3109a48d427b
 # ╟─be391955-d06e-414b-9b33-6add82c0ded4
 # ╟─acac2ee7-c243-43a0-bb5a-fd1ec63d0eb2
