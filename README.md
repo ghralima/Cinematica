@@ -62,7 +62,7 @@ Este repositório contém os cadernos Pluto sobre cinemática do Ensino Médio.
 - ## 1.5.5. Exemplos de aplicação do MRU
     * Exemplo 1
     
-        Calculando a velocidade e a posição inicial a partir dos gráficos de posição em função do tempo. Encontrando o instante e a posição de dois objetos em MRU.
+        Calculando a velocidade e a posição inicial a partir dos gráficos de posição em função do tempo. Encontrando o instante e a posição de encontro de dois objetos em MRU.
 
     * Exemplo 2
 
