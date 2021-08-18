@@ -2,6 +2,10 @@ Anotações criadas para a disciplina de Física 1 do CEFET-MG - Unidade Contage
 
 Este repositório contém os cadernos Pluto sobre cinemática do Ensino Médio.
 
+Para executar os cadernos é necessário instalar a [Linguagem Julia](https://julialang.org/) e o pacote [Pluto.jl](https://github.com/fonsp/Pluto.jl). As instruções para instalação encontram-se nos links disponibilizados.
+
+
+
 ---
 [Caderno 1 - Posição](1_posicao.jl)
 # 1.1. POSIÇÃO X DISTÂNCIA
