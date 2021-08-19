@@ -87,3 +87,16 @@ Para executar os cadernos é necessário instalar a [Linguagem Julia](https://ju
 
 - ## 1.6.2. Aceleração em função do tempo no MRUV
     * ### A área no gráfico de aceleração por tempo
+
+---
+[Caderno 7](7_MRUV_2.jl)
+- ## 1.6.3. Deslocamento em função do tempo no MRUV
+    * ### Área do gráfico de v(t) no MRUV
+    * ### Equação do deslocamento $\Delta t(s)$ no MRUV
+
+- ## 1.6.4. Posição em função do tempo no MRUV
+- ## 1.6.5. Equações de movimento
+    * ### Exemplo 1
+    * ### Exemplo 2
+
+- ## 1.6.6. Equações do MRUV
