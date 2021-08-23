@@ -263,9 +263,62 @@ md"""
 Quando a velocidade inicial é zero, o vértice da parábola - seu ponto mais alto ou mais baixo - está na posição inicial.
 """
 
+# ╔═╡ 68356482-aaf0-461d-91bb-e0f335e54a46
+md"""
+### 1.6.6. Equação de Torricelli
+
+Uma outra equação bem útil que pode ser utilizada quando estamos estudando o MRUV é a *equação de Torricelli*:
+
+```math
+v_f^2 = v_0^2 + 2a \cdot \Delta s.
+```
+
+Note que nessa equação não temos o tempo ``t``, e ao invés temos a velocidade final ``v_f`` do objeto. Para obtê-la, partimos da equação do deslocamento em função do tempo ``\Delta s(t)``:
+
+```math
+\Delta s(t) = v_0 \cdot t + \frac{1}{2} \cdot a \cdot t^2,
+```
+
+mas precisamos reescrevê-la sem utilizar o tempo ``t``. Para isso utilizaremos a equação de ``v(t)``, e isolaremos o ``t`` nessa equação:
+
+```math
+v(t) = v_0 + a \cdot t \Rightarrow \boxed{t = \frac{v(t) - v_0}{a}}.
+```
+
+Substituindo o ``t`` na equação de ``\Delta s(t)`` pelo ``t`` encontrado utilizando ``v(t)``, temos:
+
+```math
+\Delta s(t) = v_0 \cdot \overbrace{\frac{v(t) - v_0}{a}}^{t} + \frac{1}{2} \cdot a \cdot \overbrace{\left(\frac{v(t) - v_0}{a}\right)^2}^{t^2}.
+```
+
+Podemos simplificar a notação, trocando ``\Delta s(t)`` por ``\Delta s``, e ``v_f`` por ``v(t)``. Nesse caso, ``v_f`` será a velocidade ``v`` do objeto no mesmo instante em que o objeto tem deslocamento ``\Delta s``.  Fazendo essa troca, e expandindo os termos da expressão podemos reescrevê-la como:
+
+```math
+\Delta s = \frac{v_0 \cdot \left(v_f - v_0\right)}{a} + \frac{\cancel{a}}{2} \cdot \frac{v_f^2 - 2 \cdot  v_f \cdot v_0 + v_0^2}{a^{\bcancel{2}}},
+```
+
+```math
+\Delta s = \frac{v_0 \cdot v_f - v_0^2}{a} + \frac{v_f^2 - 2v_f \cdot v_0 + v_0^2}{2a}.
+```
+
+Após somar as frações, podemos simplificar ainda mais a expressão:
+
+```math
+\Delta s = \frac{\cancel{2v_0 \cdot v_f} - 2v_0^2 + v_f^2 \cancel{- 2v_f \cdot v_0} + v_0^2}{2a} = \frac{v_f^2 + v_0^2 - 2v_0^2}{a} = \frac{v_f^2 - v_0^2}{2a},
+```
+
+para finalmente encontrar a *equação de Torricelli*:
+
+```math
+\boxed{\Delta s = \frac{v_f^2 - v_0^2}{2a}} \therefore \boxed{v_f^2 = v_0^2 + 2a \cdot \Delta s}
+```
+
+> A equação de Torricelli é bem útil ao resolver problemas de MRUV, quando não temos nenhuma informação sobre o tempo que se passa, mas temos informações sobre o deslocamento do objeto, e suas velocidades inicial e final.
+"""
+
 # ╔═╡ 4c394698-91cf-48e6-92be-9844b762f992
 md"""
-### 1.6.6. As equações do MRUV
+### 1.6.7. As equações do MRUV
 
 Juntando todas as equações que foram obtidas para o MRUV, temos:
 
@@ -278,10 +331,19 @@ Juntando todas as equações que foram obtidas para o MRUV, temos:
 ```math
 \boxed{\Delta s(t) = s(t) - s_0 = v_0 \cdot t + \frac{1}{2}\cdot a t^2}
 ```
+- Equação de Torricelli
+
+```math
+\boxed{\Delta s= \frac{v_f^2 - v_0^2}{2a}}
+```
 
 **-Velocidade:**
 ```math
 \boxed{v(t) = v_0 + a \cdot t}
+```
+- Equação de Torricelli
+```math
+\boxed{v_f^2 = v_0^2 + 2a \cdot \Delta s}
 ```
 
 **-Variação da velocidade:**
@@ -293,6 +355,12 @@ Juntando todas as equações que foram obtidas para o MRUV, temos:
 ```math
 \boxed{a = \frac{\Delta v}{\Delta t} \rightarrow {\rm constante}}
 ```
+
+- Equação de Torricelli
+```math
+\boxed{a = \frac{v_f^2 - v_0^2}{2 \Delta s}}
+```
+
 """
 
 # ╔═╡ 80986c5d-04e6-410c-842f-791872dcc9df
@@ -699,5 +767,6 @@ end
 # ╟─66cec9c1-3900-462f-a3d0-f6b6a04ce5f7
 # ╟─6c67ca22-47cf-42f0-b56e-0bc647f02870
 # ╟─4627e185-e94b-4e39-9a08-667cf70175d4
+# ╟─68356482-aaf0-461d-91bb-e0f335e54a46
 # ╟─4c394698-91cf-48e6-92be-9844b762f992
 # ╟─80986c5d-04e6-410c-842f-791872dcc9df
