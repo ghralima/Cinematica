@@ -99,4 +99,6 @@ Para executar os cadernos é necessário instalar a [Linguagem Julia](https://ju
     * ### Exemplo 1
     * ### Exemplo 2
 
-- ## 1.6.6. Equações do MRUV
+- ## 1.6.6. Equação de Torricelli
+
+- ## 1.6.7. Equações do MRUV
