@@ -102,3 +102,8 @@ Para executar os cadernos é necessário instalar a [Linguagem Julia](https://ju
 - ## 1.6.6. Equação de Torricelli
 
 - ## 1.6.7. Equações do MRUV
+
+---
+[Caderno 8](8_MRUV_3.jl)
+
+- ## 1.6.8. Queda-livre
