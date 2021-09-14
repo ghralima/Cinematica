@@ -7,7 +7,7 @@ Para executar os cadernos é necessário instalar a [Linguagem Julia](https://ju
 
 
 ---
-[Caderno 1 - Posição](1_posicao.jl)
+[Caderno 1 - Posição](01_posicao.jl)
 # 1.1. POSIÇÃO X DISTÂNCIA
 
 - ## 1.1.1. Posição de um ponto sobre uma reta ou linha (1D)
@@ -21,7 +21,7 @@ Para executar os cadernos é necessário instalar a [Linguagem Julia](https://ju
 
     * ### Distância e posição relativa entre pontos em 3D.
 ---
-[Caderno 2](2_deslocamento.jl)
+[Caderno 2](02_deslocamento.jl)
 # 1.2. Deslocamento x distância total percorrida
 
 - ## 1.2.1. Deslocamento em 1D
@@ -37,7 +37,7 @@ Para executar os cadernos é necessário instalar a [Linguagem Julia](https://ju
     * ### Distância total percorrida em 3D
 
 ---
-[Caderno 3](3_velocidade_media.jl)
+[Caderno 3](03_velocidade_media.jl)
 
 # 1.3. Instante de tempo e intervalo de tempo
 
@@ -49,7 +49,7 @@ Para executar os cadernos é necessário instalar a [Linguagem Julia](https://ju
 
 - ## 1.4.3. Velocidade média em 2d
 ---
-[Caderno 4](4_MRU.jl)
+[Caderno 4](04_MRU.jl)
 
 # 1.5. Movimento retilíneo uniforme (MRU)
 
@@ -61,7 +61,7 @@ Para executar os cadernos é necessário instalar a [Linguagem Julia](https://ju
 
 - ## 1.5.4. Velocidade instantânea
 ---
-[Caderno 5](5_MRU_exemplos.jl)
+[Caderno 5](05_MRU_exemplos.jl)
 
 - ## 1.5.5. Exemplos de aplicação do MRU
     * Exemplo 1
@@ -76,7 +76,7 @@ Para executar os cadernos é necessário instalar a [Linguagem Julia](https://ju
 
         Calculando o deslocamento a partir do gráfico de velocidade x tempo. Desenhando o gráfico de deslocamento x tempo.
 ---
-[Caderno 6](6_MRUV_1.jl)
+[Caderno 6](06_MRUV_1.jl)
 
 # 1.6. Movimento retilíneo uniformemente variado (MRUV)
 
@@ -89,7 +89,7 @@ Para executar os cadernos é necessário instalar a [Linguagem Julia](https://ju
     * ### A área no gráfico de aceleração por tempo
 
 ---
-[Caderno 7](7_MRUV_2.jl)
+[Caderno 7](07_MRUV_2.jl)
 - ## 1.6.3. Deslocamento em função do tempo no MRUV
     * ### Área do gráfico de v(t) no MRUV
     * ### Equação do deslocamento $\Delta t(s)$ no MRUV
@@ -104,6 +104,15 @@ Para executar os cadernos é necessário instalar a [Linguagem Julia](https://ju
 - ## 1.6.7. Equações do MRUV
 
 ---
-[Caderno 8](8_MRUV_3.jl)
+[Caderno 8](08_MRUV_3.jl)
 
 - ## 1.6.8. Queda-livre
+
+[Caderno 9](09_Vetores_1.jl)
+
+# 1.7. Vetores
+
+- ## 1.7.1. Representação vetorial
+
+- ## 1.7.2. Inversão de um vetor
+- ## 1.7.3.  Multiplicação de um vetor por um escalar
