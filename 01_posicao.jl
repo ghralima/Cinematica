@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.15.1
+# v0.19.0
 
 using Markdown
 using InteractiveUtils
@@ -7,8 +7,9 @@ using InteractiveUtils
 # This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
 macro bind(def, element)
     quote
+        local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
         local el = $(esc(element))
-        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : missing
+        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
         el
     end
 end
@@ -52,8 +53,10 @@ Para diferenciar pontos que estão à direita ou à esquerda do ponto de referê
 
 # ╔═╡ db2ee140-7191-47d2-a282-f9d13e38adab
 begin
-	x_positivo = rand(1:200, 2)
-	x_negativo = rand(-200:-1, 2)
+	#x_positivo = rand(1:200, 2)
+	x_positivo = [88, 20]
+	#x_negativo = rand(-200:-1, 2)
+	x_negativo = [-177, -80]
 	xs = vcat(x_positivo, x_negativo)
 	pontos = [Point2(x, 0) for x ∈ xs]
 	p_nomes = ["A", "B", "C", "D"]
@@ -116,13 +119,16 @@ Ao escrever a posição, não devemos esquecer de indicar as unidades de medida 
 
 A tabela abaixo mostra os fatores de conversão entre as unidades de comprimento mais comuns de serem utilizadas.
 
-| X | mm | cm | dm | m | km|
-|:--|:--:|:--:|:--:|:--:|:--:|
-|1 mm | 1| 0,1| 0,01| 0,001| 0,000001|
-|1 cm | 10| 1 | 0,1 | 0,01| 0,00001|
-|1 dm | 100| 10 | 1 | 0,1 | 0,0001 |
-|1 m | 1.000| 100 | 10 | 1 | 0,001 |
-|1 km | 1.000.000| 100.000| 10.000| 1.000| 1|
+| X | mm | cm | dm | m | dam | hm | km|
+|:--|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+|   |milímetro|centímetro|decímetro|metro|decâmetro|hectômetro|quilômetro|
+|$1\,$mm | $1$ | $10^{-1}$| $10^{-2}$ | $10^{-3}$| $10^{-4}$| $10^{-5}$ | $10^{-6}$|
+|$1\,$cm | $10$| $1$ | $10^{-1}$ | $10^{-2}$| $10^{-3}$| $10^{-4}$ | $10^{-5}$|
+|$1\,$dm | $10^{2}$| 10 | 1 | $10^{-1}$ | $10^{-2}$ | $10^{-3}$ | $10^{-4}$|
+|$1\,$m | $10^{3}$| $10^{2}$ | 10 | 1 | $10^{-1}$ | $10^{-2}$ | $10^{-3}$ |
+|$1\,$dam | $10^{4}$| $10^{3}$ | $10^{2}$ | 10 | 1 | $10^{-1}$| $10^{-2}$ |
+|$1\,$hm |$10^{5}$ |$10^{4}$ |$10^{3}$ | $10^{2}$ | $10$ | $1$ | $10^{-1}$|
+|$1\,$km |$10^{6}$|$10^{5}$| $10^{4}$| $10^{3}$| $10^{2}$| $10$ | $1$ |
 
 """
 
@@ -196,9 +202,12 @@ Na imagem abaixo, temos 3 pontos representados num plano cartesiano com a indica
 
 # ╔═╡ b948d630-845e-4828-87c8-2b9751235613
 begin
-	ponto_A = Point2(rand(-5:5, 2))
-	ponto_B = Point2(rand(-5:5, 2))
-	ponto_C = Point2(rand(-5:5, 2))
+	#ponto_A = Point2(rand(-5:5, 2))
+	ponto_A = Point2(-3, 5)
+	#ponto_B = Point2(rand(-5:5, 2))
+	ponto_B = Point2(3, -2)
+	#ponto_C = Point2(rand(-5:5, 2))
+	ponto_C = Point2(-2, -2)
 	points = [ponto_A, ponto_B, ponto_C]
 end;
 
@@ -747,8 +756,8 @@ begin
 			string("B = (", ponto_B[1], " cm, ", ponto_B[2], " cm)"), 
 			string("C = (", ponto_C[1], " cm, ", ponto_C[2], " cm)")], 
 		position = [(ponto_A[1], ponto_A[2] + 0.4), 
-			(ponto_B[1], ponto_B[2] + 0.4), (ponto_C[1], ponto_C[2] + 0.4)],
-		align = [(:center, :center), (:center, :center), (:center, :center)], 
+			(ponto_B[1], ponto_B[2] - 0.4), (ponto_C[1], ponto_C[2] - 0.4)],
+		align = [(:center, :bottom), (:center, :top), (:center, :top)], 
 		color = [:red, :green, :blue],
 		textsize = 17)
 	
@@ -924,9 +933,9 @@ escrever_posicao(ponto_3B, "B", "cm")
 escrever_posicao(ponto_3A-ponto_3B, "A_{B}", "cm")
 
 # ╔═╡ Cell order:
-# ╠═c0c2b95c-8d6d-4219-9fe8-b28c6b05f5e0
-# ╠═6c978cdd-a550-4d0f-97c4-63741ef2010c
-# ╠═39613139-84d2-4843-acab-45f02914ee90
+# ╟─c0c2b95c-8d6d-4219-9fe8-b28c6b05f5e0
+# ╟─6c978cdd-a550-4d0f-97c4-63741ef2010c
+# ╟─39613139-84d2-4843-acab-45f02914ee90
 # ╟─81891cae-19fb-4be5-81d4-f006b38ee797
 # ╟─db2ee140-7191-47d2-a282-f9d13e38adab
 # ╟─a60ba8e9-9c09-4a5b-ab9f-16e65712d635
@@ -962,7 +971,7 @@ escrever_posicao(ponto_3A-ponto_3B, "A_{B}", "cm")
 # ╟─dc1661c0-d576-4071-bade-9d42c998dc4a
 # ╟─bc19d74e-d7b1-4115-bb69-e799d5216afc
 # ╟─fe455fdd-3a21-4e10-89d0-115c0ada3005
-# ╠═3cb3f748-b8cd-473e-875f-07456d5c920f
+# ╟─3cb3f748-b8cd-473e-875f-07456d5c920f
 # ╟─0a67b69e-8e24-4db5-9735-85f44bd7902c
 # ╟─312c3367-c3b8-4e82-99e1-df03bdf25720
 # ╟─e62bb31f-3c3f-4da5-af7e-8c508a67a56e
