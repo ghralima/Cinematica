@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.8
+# v0.19.0
 
 using Markdown
 using InteractiveUtils
@@ -7,8 +7,9 @@ using InteractiveUtils
 # This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
 macro bind(def, element)
     quote
+        local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
         local el = $(esc(element))
-        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : missing
+        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
         el
     end
 end
@@ -32,12 +33,12 @@ CairoMakie.activate!(type = "svg")
 
 # ╔═╡ be391955-d06e-414b-9b33-6add82c0ded4
 md"""
-## 1.2. Deslocamento (``\overrightarrow{\Delta S}``)
+## 1.2. Deslocamento (``\Delta \vec{S}``)
 
-O deslocamento é uma grandeza que representa a variação da posição de um objeto em relação à sua posição inicial, e iremos representá-la como ``\overrightarrow{ΔS}``. Se um objeto parte de uma posição inicial ``\vec{S}_0`` e chega a uma outra posição ``\vec{S}_1``, seu deslocamento durante esse movimento foi:
+O deslocamento é uma grandeza que representa a variação da posição de um objeto em relação à sua posição inicial, e iremos representá-la como ``\Delta \vec{S}``. Se um objeto parte de uma posição inicial ``\vec{S}_0`` e chega a uma outra posição ``\vec{S}_1``, seu deslocamento durante esse movimento foi:
 
 ```math
-\overrightarrow{\Delta S} = \vec{S}_1 - \vec{S}_0
+\Delta \vec{S} = \vec{S}_1 - \vec{S}_0
 ```
 """
 
@@ -49,14 +50,14 @@ md"""
 Quando o caso estudado pode ser simplificado para o movimento em apenas 1 dimensão, podemos representar a posição inicial do um objeto como ``\vec{S}_0 = x_0``. Se após um movimento a posição do objeto torna-se ``\vec{S}_1 = x_1``, então seu deslocamento foi:
 
 ```math
-\overrightarrow{\Delta S} = x_1 - x_0,
+\Delta \vec{S} = x_1 - x_0,
 ```
 
 sendo que o deslocamento pode ter valores positivos e negativos. O deslocamento também é representado utilizando-se unidades de comprimento.
 
 **Se um objeto está parado, seu deslocamento é zero!**
 
-> De acordo com sua definição matemática, o deslocamento pode ser entendido como a posição do objeto em relação à sua posição inicial.
+> De acordo com sua definição matemática, o deslocamento pode ser entendido como a posição atual do objeto em relação à sua posição inicial.
 """
 
 # ╔═╡ 6a1bca68-40d9-4bc3-9131-31de5bab60d5
@@ -67,7 +68,7 @@ end;
 
 # ╔═╡ 9586d30c-67d4-44dc-80ce-9348adeba0e0
 md"""
-Selecione a posição ``\vec{S}_1``:
+Selecione a posição ``\vec{S}_1`` (em m):
 
 $(@bind xd_1D PlutoUI.Slider(ustrip(x0_1D)-100:ustrip(x0_1D)+100; 
 	default = x0_1D, show_value = true))
@@ -92,22 +93,22 @@ begin
 		linewidth = 4,
 		arrowsize = 20)
 	
-	text!(ax_01, string("S₀ = ",x0_1D), position = (x0, 3),
-		align = (:center, :bottom), color = :dodgerblue, textsize = 15)
-	text!(ax_01, string("S₁ = ",x1_1D), position = (xd_1D, -3),
-		align = (:center, :top), color = :red, textsize = 15)
+	text!(ax_01, latexstring("\\vec{S}_{0} = ", x0_1D), position = (x0, 4),
+		align = (:center, :bottom), color = :dodgerblue, textsize = 18)
+	text!(ax_01, latexstring("\\vec{S}_{1} = ",x1_1D), position = (xd_1D, -4),
+		align = (:center, :top), color = :red, textsize = 18)
 	
 	if (xd_1D - x0 >= 0)
 		align_ΔS = :left
-		offset = 6
+		offset = 8
 	else
 		align_ΔS = :right
-		offset = -6
+		offset = -8
 	end
 	
-	text!(ax_01, string("ΔS = ", x1_1D - x0_1D), 
+	text!(ax_01, latexstring("Δ\\vec{S} = ", x1_1D - x0_1D), 
 		position = (xd_1D + offset, 0),
-		align = (align_ΔS, :center), color = :green, textsize = 17)
+		align = (align_ΔS, :center), color = :green, textsize = 20)
 		
 	ax_01.title = "Deslocamento (1D)"
 	limits!(ax_01, x0 - 140, x0 + 140,  -20, 20)
@@ -119,14 +120,14 @@ end
 
 # ╔═╡ da6e713f-43ef-4251-a78a-74847a7369a7
 md"""
-No exemplo ilustrado acima, temos um objeto que inicialmente está na posição ``\vec{S}_0 = `` $x0_1D, e se movimenta até a posição ``\vec{S}_1 = `` $x1_1D. O deslocamento desse objeto foi ``\overrightarrow{\Delta S} = `` $(x1_1D - x0_1D). De acordo com a convenção utilizada na imagem, um deslocamento positivo indica que o movimento foi para a direita, e um deslocamento negativo indica movimento para a esquerda.
+No exemplo ilustrado acima, temos um objeto que inicialmente está na posição ``\vec{S}_0 = `` $x0_1D, e se movimenta até a posição ``\vec{S}_1 = `` $x1_1D. O deslocamento desse objeto foi ``\Delta \vec{S} = `` $(x1_1D - x0_1D). De acordo com a convenção utilizada na imagem, um deslocamento positivo indica que o movimento foi para a direita, e um deslocamento negativo indica movimento para a esquerda.
 
-Como no caso da posição, o sinal é importante e,para o deslocamento em 1D, indica o sentido do movimento do objeto.
+Como no caso da posição, o sinal é importante e, para o deslocamento em 1D, indica o sentido do movimento do objeto.
 
 A distância do objeto em relação à sua posição inicial é dada pelo módulo de seu deslocamento. 
 
 ```math
-d_{1,0} = |\overrightarrow{\Delta S}| = |x_1 - x_0|.
+d_{1,0} = |\Delta \vec{S}| = |x_1 - x_0|.
 ```
 **Lembrando que a distância é uma grandeza sempre positiva e, por isso, usamos o módulo do deslocamento!**
 """
@@ -154,8 +155,9 @@ begin
 	for i ∈ 1:np_1D
 		push!(cor_x_1D, (cores[i], alpha_x[i]))
 	end
-	x_1D = rand(-100:100, np_1D)
-	p_1D = [Point2f0(x, 0) for x ∈ x_1D]
+	#x_1D = rand(-100:100, np_1D)
+	x_1D = [13, -65, -92, 29, 55, -42]
+	p_1D = [Point2f(x, 0) for x ∈ x_1D]
 end;
 
 # ╔═╡ b77ab228-83d0-462e-98c4-a22bde2bd5d4
@@ -180,7 +182,7 @@ latexstring("D_{0,1} = |", x_1D[2] - x_1D[1], "\\rm{\\, m}| =",
 
 # ╔═╡ 3d00751d-261d-4683-bcae-486bf073ff93
 md"""
-Após o primeiro movimento, o objeto se move para as posições ``\vec{S}_2 = `` $(x_1D[3] * 1u"m"), ``\vec{S}_3 = `` $(x_1D[4] * 1u"m"), ``\vec{S}_4 = `` $(x_1D[5] * 1u"m") e ``\vec{S}_5 = `` $(x_1D[6] * 1u"m"). Para ver o que acontece com o ``\overrightarrow{\Delta S}`` e ``D`` ao longo do movimento, selecione o número de pontos ao longo da trajetória:
+Após o primeiro movimento, o objeto se move para as posições ``\vec{S}_2 = `` $(x_1D[3] * 1u"m"), ``\vec{S}_3 = `` $(x_1D[4] * 1u"m"), ``\vec{S}_4 = `` $(x_1D[5] * 1u"m") e ``\vec{S}_5 = `` $(x_1D[6] * 1u"m"). Para ver o que acontece com o ``\Delta \vec{S}`` e ``D`` ao longo do movimento, selecione o número de pontos ao longo da trajetória:
 
 $(@bind tr_1D PlutoUI.Slider(2:np_1D; show_value = true))
 """
@@ -196,15 +198,15 @@ begin
 	scatter!(ax_02, p_1D[1:tr_1D], markersize = 15, color = cor_x_1D[1:tr_1D])
 	
 	text!(ax_02, p_nomes_1D[1],
-			position = (x_1D[1], 2.5), 
-			align = (:center, :bottom),
-			color = :black,
-			textsize = 15)
-	text!(ax_02, string(1u"m"*x_1D[1]),
-			position = (x_1D[1], -2.5), 
+			position = (x_1D[1], -3), 
 			align = (:center, :top),
 			color = :black,
-			textsize = 15)
+			textsize = 16)
+	text!(ax_02, string(1u"m"*x_1D[1]),
+			position = (x_1D[1], -10), 
+			align = (:center, :top),
+			color = :black,
+			textsize = 16)
 	
 	dist_perc_fig02 = 0u"m"
 	ΔS_fig02 = 0u"m"
@@ -215,10 +217,10 @@ begin
 			linewidth = 3,
 			arrowsize = 15)
 	
-	text!(ax_02, "ΔS", position = ((x_1D[tr_1D] + x_1D[1])/2, 0.5),
+	text!(ax_02, L"\Delta\vec{S}", position = ((x_1D[tr_1D] + x_1D[1])/2, 0.5),
 		align = (:center, :bottom),
 		color = :blue,
-		textsize = 15)
+		textsize = 20)
 
 	for i ∈ 1:tr_1D - 1
 		arrows!(ax_02, [x_1D[i]], [25 - 2.5*i], 
@@ -236,15 +238,15 @@ begin
 		iseven(i) ? py_align = :bottom : py_align = :top
 		
 		text!(ax_02, p_nomes_1D[i+1],
-			position = (x_1D[i+1], 2.5), 
-			align = (:center, :bottom),
-			color = :black,
-			textsize = 15)
-		text!(ax_02, string(1u"m"*x_1D[i+1]),
-			position = (x_1D[i+1], -2.5), 
+			position = (x_1D[i+1], -3), 
 			align = (:center, :top),
 			color = :black,
-			textsize = 15)
+			textsize = 16)
+		text!(ax_02, string(1u"m"*x_1D[i+1]),
+			position = (x_1D[i+1], -10), 
+			align = (:center, :top),
+			color = :black,
+			textsize = 16)
 		
 		#text!(ax_02, string(p_nomes_1D[i+1]," = ", 1u"m"*x_1D[i+1]),
 		#	position = (x_1D[i+1], (-1)^i * 1.5 * i), 
@@ -281,7 +283,7 @@ Após chegar a ``\vec{S}_1`` o objeto se movimenta para ``\vec{S}_2`` = $(x_1D[3
 """
 
 # ╔═╡ aa98f8a9-e241-4f5f-a0f6-25b7df8646ac
-latexstring("\\overrightarrow{\\Delta S}_{1,2} = \\vec{S}_2 - \\vec{S}_1 = ",
+latexstring("\\Delta \\vec{S}_{1,2} = \\vec{S}_2 - \\vec{S}_1 = ",
 	x_1D[3], "\\rm{\\, m} - (", x_1D[2], "\\rm{\\, m}) = ", ((x_1D[3] - x_1D[2])*1u"m"))
 
 # ╔═╡ 8b00b1d3-8ecb-4ea5-a6e5-67a5bf28974c
@@ -299,8 +301,8 @@ Para encontrar o deslocamento total entre ``\vec{S}_0`` e ``\vec{S}_2`` podemos 
 """
 
 # ╔═╡ f34c4f86-1825-4c00-8192-1d6d38f89470
-latexstring("\\overrightarrow{\\Delta S}_{0,2} = \\overrightarrow{\\Delta S}_{0,1} +
-	\\overrightarrow{\\Delta S}_{1,2} = ", 
+latexstring("\\Delta \\vec{S}_{0,2} = \\Delta \\vec{S}_{0,1} +
+	\\Delta \\vec{S}_{1,2} = ", 
 	(x_1D[2] - x_1D[1]), "\\rm{\\, m} + (", (x_1D[3] - x_1D[2]), "\\rm{\\, m}) = ", 	((x_1D[3] - x_1D[1])*1u"m"), ",")
 
 # ╔═╡ f62a257f-0c01-4e50-92b6-d40233de5174
@@ -309,7 +311,7 @@ ou simplesmente calcular em função das posições final e inicial:
 """
 
 # ╔═╡ 494fc3c2-97b4-465c-aab3-b4ce2af388ce
-latexstring("\\overrightarrow{\\Delta S}_{0,2} = \\vec{S}_2 - \\vec{S}_0 = ",
+latexstring("\\Delta \\vec{S}_{0,2} = \\vec{S}_2 - \\vec{S}_0 = ",
 	x_1D[3], "\\rm{\\, m} - (", x_1D[1], "\\rm{\\, m}) = ", ((x_1D[3] - x_1D[1])*1u"m"), ".")
 
 # ╔═╡ 035cfbd0-f6ae-4418-99ba-ec3d2a2c1376
@@ -329,7 +331,7 @@ Na imagem acima, podemos ver o que acontece com o deslocamento e com a distânci
 Após passar sair da posição ``\vec{S}_0 = x_0``, passar por ``n`` pontos e chegar a ``\vec{S}_n = x_n``, o deslocamento será, simplesmente:
 
 ```math
-\overrightarrow{\Delta S_{0,n}} = \vec{S}_n - \vec{S}_0 = x_n - x_0.
+\Delta \vec{S}_{0,n} = \vec{S}_n - \vec{S}_0 = x_n - x_0.
 ```
 """
 
@@ -364,7 +366,7 @@ md"""
 Para calcularmos o deslocamento em duas dimensões, seguiremos o mesmo procedimento do que fizemos no caso unidimensional. Quando um objeto se movimenta de sua posição inicial ``\vec{S}_0 = (x_0, \, y_0)`` até a posição ``\vec{S}_1 = (x_1, \, y_1)``, seu deslocamento é:
 
 ```math
-\overrightarrow{\Delta S} = \vec{S}_1 - \vec{S}_0 = (x_1 - x_0, \, y_1 - y_0).
+\Delta \vec{S} = \vec{S}_1 - \vec{S}_0 = (x_1 - x_0, \, y_1 - y_0).
 ```
 """
 
@@ -401,12 +403,12 @@ O deslocamento do objeto entre esses dois pontos foi:
 """
 
 # ╔═╡ 773f24b6-1cb0-44d9-bc9c-22b71ca69780
-latexstring("\\overrightarrow{\\Delta S}_{0,1} = \\vec{S}_1 - \\vec{S}_0 = (",
+latexstring("\\Delta \\vec{S}_{0,1} = \\vec{S}_1 - \\vec{S}_0 = (",
 	s1_2D[1], "\\rm{\\, m} -(", s0_2D[1], "\\rm{\\, m}), ",
 	s1_2D[2], "\\rm{\\, m} -(", s0_2D[2], "\\rm{\\, m}))")
 
 # ╔═╡ 1589f9c8-4fef-4ff4-a522-3299e9647ff7
-latexstring("\\overrightarrow{\\Delta S}_{0,1} = (",
+latexstring("\\Delta \\vec{S}_{0,1} = (",
 	s1_2D[1] - s0_2D[1], "\\rm{\\, m}, ", s1_2D[2]-s0_2D[2], "\\rm{\\, m})")
 
 # ╔═╡ b01c8724-408a-496b-887a-0ec7bc0da3a3
@@ -415,7 +417,7 @@ Aplicando o *Teorema de Pitágoras* no deslocamento, conseguimos calcular a dist
 """
 
 # ╔═╡ db550412-ab78-4b23-89de-eeefadc9b0dd
-latexstring("d_{0,1} = |\\overrightarrow{\\Delta S}| = \\sqrt{ (",
+latexstring("d_{0,1} = |\\Delta \\vec{S}| = \\sqrt{ (",
 	s1_2D[1] - s0_2D[1],"\\rm{\\, m} )^2 + (", s1_2D[2] - s0_2D[2],
 	"\\rm{\\, m} )^2} = \\sqrt{", (s1_2D[1] - s0_2D[1])^2 + (s1_2D[2] - s0_2D[2])^2,
 	"\\rm{\\, m^2}} = ", 
@@ -458,19 +460,19 @@ md"""
 O deslocamento do objeto entre ``\vec{S}_0`` e ``\vec{S}_1`` foi:
 
 ```math
-\overrightarrow{\Delta S}_{0,1} = (x_1 - x_0, \, y_1 - y_0)
+\Delta \vec{S}_{0,1} = (x_1 - x_0, \, y_1 - y_0)
 ```
 """
 
 # ╔═╡ e6f2bfa4-b5e2-469d-993f-71a26d907c23
-latexstring("\\overrightarrow{\\Delta S}_{0,1} = ($(traj2D[2][1]) \\rm{\\, m} - 
+latexstring("\\Delta \\vec{S}_{0,1} = ($(traj2D[2][1]) \\rm{\\, m} - 
 	($(traj2D[1][1]) \\rm{\\, m}) , \\: $(traj2D[2][2]) \\rm{\\, m} - 
 	($(traj2D[1][2]) \\rm{\\, m})) = ($(traj2D[2][1] - traj2D[1][1]) \\rm{\\, m},
 	\\: $(traj2D[2][2] - traj2D[1][2]) \\rm{\\, m}).")
 
 # ╔═╡ 9abe8a41-fc42-43c7-b75d-57a590fff0f2
 md"""
-Nesse movimento inicial, a trajetória percorrida entre ``\vec{S}_0`` e ``\vec{S}_1`` é o segmento de reta que une os dois pontos, que por sua vez pode ser representado pelo deslocamento ``\overrightarrow{\Delta S}_{0,1}``. A distância percorrida entre esses dois pontos pode ser obtida utilizando-se o *teorema de Pitágoras* com as componentes do deslocamento:
+Nesse movimento inicial, a trajetória percorrida entre ``\vec{S}_0`` e ``\vec{S}_1`` é o segmento de reta que une os dois pontos, que por sua vez pode ser representado pelo deslocamento ``\Delta \vec{S}_{0,1}``. A distância percorrida entre esses dois pontos pode ser obtida utilizando-se o *teorema de Pitágoras* com as componentes do deslocamento:
 
 ```math
 D_{0,1} = \sqrt{(x_1 - x_0)^2 + (y_1 - y_0)^2}
@@ -515,12 +517,12 @@ md"""
 O deslocamento entre ``\vec{S}_1`` e ``\vec{S}_2`` é:
 
 ```math
-\overrightarrow{\Delta S}_{1,2} = (x_2 - x_1, \, y_2 - y_1)
+\Delta \vec{S}_{1,2} = (x_2 - x_1, \, y_2 - y_1)
 ```
 """
 
 # ╔═╡ 1fdb80c7-4bcc-47b3-88fc-5a3df9a34ec6
-latexstring("\\overrightarrow{\\Delta S}_{1,2} = ($(traj2D[3][1]) \\rm{\\, m} - 
+latexstring("\\Delta \\vec{S}_{1,2} = ($(traj2D[3][1]) \\rm{\\, m} - 
 	($(traj2D[2][1]) \\rm{\\, m}) , \\: $(traj2D[3][2]) \\rm{\\, m} - 
 	($(traj2D[2][2]) \\rm{\\, m})) = ($(traj2D[3][1] - traj2D[2][1]) \\rm{\\, m},
 	\\: $(traj2D[3][2] - traj2D[2][2]) \\rm{\\, m}).")
@@ -530,22 +532,22 @@ md"""
 O deslocamento total entre ``\vec{S}_0`` e ``\vec{S}_2`` pode ser obtido como a soma dos deslocamentos que compõem o movimento:
 
 ```math
-\overrightarrow{\Delta S}_{0,2} = \overrightarrow{\Delta S}_{0,1} +  \overrightarrow{\Delta S}_{1,2}
+\Delta \vec{S}_{0,2} = \Delta \vec{S}_{0,1} +  \Delta \vec{S}_{1,2}
 ```
 """
 
 # ╔═╡ 8000743e-adbf-4a9b-8af4-9516a4a96cce
-latexstring("\\overrightarrow{\\Delta S}_{0,2} = ($(ΔS_traj2D[1][1])\\rm{\\, m},
+latexstring("\\Delta \\vec{S}_{0,2} = ($(ΔS_traj2D[1][1])\\rm{\\, m},
 	$(ΔS_traj2D[1][2])\\rm{\\, m}) + ($(ΔS_traj2D[2][1])\\rm{\\, m},
 	$(ΔS_traj2D[2][2])\\rm{\\, m})")
 
 # ╔═╡ f8a5aaeb-a780-4172-9241-deaa0db40e59
-latexstring("\\overrightarrow{\\Delta S}_{0,2} = ($(ΔS_traj2D[1][1])\\rm{\\, m} +
+latexstring("\\Delta \\vec{S}_{0,2} = ($(ΔS_traj2D[1][1])\\rm{\\, m} +
 	($(ΔS_traj2D[2][1])\\rm{\\, m}), $(ΔS_traj2D[1][2])\\rm{\\, m} + 
 	($(ΔS_traj2D[2][2])\\rm{\\, m}))")
 
 # ╔═╡ e6ed0332-b70e-4797-b49a-a5eb337e2f51
-latexstring("\\overrightarrow{\\Delta S}_{0,2} = (
+latexstring("\\Delta \\vec{S}_{0,2} = (
 	$(ΔS_traj2D[1][1] + ΔS_traj2D[2][1])\\rm{\\, m}, 
 	$(ΔS_traj2D[1][2] + ΔS_traj2D[2][2])\\rm{\\, m}).")
 
@@ -554,12 +556,12 @@ md"""
 Mas a maneira mais simples de se obter o deslocamento é a partir das posições inicial e final do movimento:
 
 ```math
-\overrightarrow{\Delta S}_{0,2} = (x_2 - x_0, \, y_2 - y_0)
+\Delta \vec{S}_{0,2} = (x_2 - x_0, \, y_2 - y_0)
 ```
 """
 
 # ╔═╡ f8866470-9464-4ec8-8dcb-120870512775
-latexstring("\\overrightarrow{\\Delta S}_{0,2} = ($(traj2D[3][1]) \\rm{\\, m} - 
+latexstring("\\Delta \\vec{S}_{0,2} = ($(traj2D[3][1]) \\rm{\\, m} - 
 	($(traj2D[1][1]) \\rm{\\, m}) , \\: $(traj2D[3][2]) \\rm{\\, m} - 
 	($(traj2D[1][2]) \\rm{\\, m})) = ($(traj2D[3][1] - traj2D[1][1]) \\rm{\\, m},
 	\\: $(traj2D[3][2] - traj2D[1][2]) \\rm{\\, m}).")
@@ -611,14 +613,14 @@ md"""
 A distância total percorrida ``D_{0,2}`` é diferente da distância ``d_{0,2}`` entre as posições ``\vec{S}_0`` e ``\vec{S_2}``:
 
 ```math
-d_{0,2} = \Delta S_{0,2} = \sqrt{(x_2 - x_0)^2 - (y_2 - y_0)^2}
+d_{0,2} = |\Delta \vec{S}_{0,2}| = \sqrt{(x_2 - x_0)^2 - (y_2 - y_0)^2}
 ```
 """
 
 # ╔═╡ 37f26221-84f1-4907-9476-7a088e48f142
 begin
 	ΔS_traj2D_02 = traj2D[3] - traj2D[1]
-	latexstring("d_{0,2} = \\Delta S_{0,2} = 
+	latexstring("d_{0,2} = |\\Delta \\vec{S}_{0,2}| = 
 		\\sqrt{($(ΔS_traj2D_02[1])\\rm{\\, m})^2 + 
 		($(ΔS_traj2D_02[2])\\rm{\\, m})^2} = \\sqrt{$(ΔS_traj2D_02[1]^2) 
 		\\rm{\\, m^2} + $(ΔS_traj2D_02[2]^2)\\rm{\\, m^2}} = \\sqrt{
@@ -626,7 +628,7 @@ begin
 end
 
 # ╔═╡ 59dc48b3-5bd8-43b0-833d-db09dcfbad92
-latexstring("d_{0,2} = \\Delta S_{0,2} =", 
+latexstring("d_{0,2} = |\\Delta \\vec{S}_{0,2}| =", 
 	replace(string(round(norm(ΔS_traj2D_02), digits = 2)), "." => "{,}"), 
 	"\\rm{\\, m}.")
 
@@ -637,7 +639,7 @@ md"""
 Podemos notar que, no caso ilustrado acima, ``D_{0,2} > d_{0,2}``. A distância total percorrida ``D`` será sempre maior ou igual à distância entre os pontos ``d`` ou ``\Delta S``:
 
 ```math
-D \geq \Delta S.
+D \geq |\Delta \vec{S}|.
 ```
 
 Ainda, na imagem acima, é possível ver o que acontece com a distância total percorrida e com o deslocamento à medida que o objeto segue para outras posições. Vale ressaltar, ainda, que os cálculos que fizemos para encontrar a distância percorrida só valem para trajetórias em linha reta, se a trajetória por curva, a técnica utilizada será um pouco mais complicada, e não é ensinada durante o Ensino Médio.
@@ -645,7 +647,7 @@ Ainda, na imagem acima, é possível ver o que acontece com a distância total p
 No caso geral, quando um objeto sai da posição ``\vec{S}_0`` passa por ``n`` posições até chegar em ``\vec{S}_n``, seu deslocamento total só dependerá de suas posições inicial e final:
 
 ```math
-\overrightarrow{\Delta S}_{0,n} = (x_n - x_0, \, y_n - y_0).
+\Delta \vec{S}_{0,n} = (x_n - x_0, \, y_n - y_0).
 ```
 
 Já a distância total percorrida, **caso a trajetória seja composta por ``n`` retas**, será a soma do comprimentos de todas as retas:
@@ -663,7 +665,7 @@ md"""
 Como vivemos num espaço tridimensional, na maioria dos casos precisamos levar em consideração a posição de um objeto no espaço (3D). Nesse caso, utilizamos três componentes para representar a posição ``\vec{S}_0 = (x_0,\, y_0,\, z_0)`` de um objeto. Se após um certo movimento, o objeto passa a estar na posição ``\vec{S}_1 = (x_1,\, y_1,\, z_1)``, seu deslocamento será:
 
 ```math
-\overrightarrow{\Delta S}_{0,1} = \vec{S}_1 - \vec{S}_0 = (x_1 - x_0, \, y_1 -y_0, \, z_1 - z_0).
+\Delta \vec{S}_{0,1} = \vec{S}_1 - \vec{S}_0 = (x_1 - x_0, \, y_1 -y_0, \, z_1 - z_0).
 ```
 
 O cálculo do deslocamento em 1D, 2D e 3D são bem semelhantes, sendo que a única diferença é na quantidade de componentes necessárias para expressar as posições e os deslocamentos.
@@ -671,7 +673,7 @@ O cálculo do deslocamento em 1D, 2D e 3D são bem semelhantes, sendo que a úni
 O módulo do deslocamento que representa a distância entre as posições ``\vec{S}_1`` e ``\vec{S}_0`` pode ser calculado utilizando a versão do *Teorema de Pitágoras* para três dimensões:
 
 ```math
-d_{1,0} = \Delta S_{0,1} = \sqrt{(x_1 - x_0)^2 + (y_1 - y_0)^2 + (z_1 - z_0)^2}.
+d_{1,0} = |\Delta \vec{S}_{0,1}| = \sqrt{(x_1 - x_0)^2 + (y_1 - y_0)^2 + (z_1 - z_0)^2}.
 ```
 
 Caso o objeto se desloque em linha reta de ``\vec{S}_0`` até ``\vec{S}_1``, sem mudar o sentido de seu movimento durante essa trajetória, a distância percorrida de uma posição à outra pelo objeto será igual à distância entre as posições. Em qualquer outra situação a distância total percorrida será maior que a distância entre a posição inicial e a posição final do objeto!
@@ -686,7 +688,7 @@ Como nos casos de movimento em 1D e 2D, a distância total percorrida em movimen
 Também como nos casos vistos anteriormente, o deslocamento em 3D não depende da trajetória percorrida pelo objeto, mas apenas de sua posição inicial e de sua posição final. Por exemplo, se um objeto parte da posição inicial ``\vec{S}_0 = (x_0,\, y_0,\, z_0)``, e ao longo de sua trajetória passa por ``n`` pontos até atingir sua posição final ``\vec{S}_n = (x_n,\, y_n,\, z_n)``, seu deslocamento será simplesmente:
 
 ```math
-\overrightarrow{\Delta S}_{0,n} = (x_n - x_0, \, y_n - y_0, \, z_n - z_0),
+\Delta \vec{S}_{0,n} = (x_n - x_0, \, y_n - y_0, \, z_n - z_0),
 ```
 
 não dependendo de nenhum outro ponto ao longo da trajetória. Já a distância total percorrida dependerá de todos os pontos que formam a trajetória.
@@ -696,40 +698,40 @@ não dependendo de nenhum outro ponto ao longo da trajetória. Já a distância 
 md"""
 ### Resumo da seção
 
-**Deslocamento ``\overrightarrow{\Delta S}_{0,1}`` entre ``\vec{S}_0`` e ``\vec{S}_1``:**
+**Deslocamento ``\Delta \vec{S}_{0,1}`` entre ``\vec{S}_0`` e ``\vec{S}_1``:**
 
 > O deslocamento depende apenas da posição inicial e da posição final do objeto e não depende da trajetória percorrida.
 
 * 1 dimensão, ``\vec{S}_0 = x_0`` e ``\vec{S}_1 = x_1``:
 ```math
-\overrightarrow{\Delta S}_{0,1} = x_1 - x_0
+\Delta \vec{S}_{0,1} = x_1 - x_0
 ```
 
 * 2 dimensões, ``\vec{S}_0 = (x_0,\, y_0)`` e ``\vec{S}_1 = (x_1,\, y_1)``:
 ```math
-\overrightarrow{\Delta S}_{0,1} = (x_1 - x_0,\, y_1 - y_0)
+\Delta \vec{S}_{0,1} = (x_1 - x_0,\, y_1 - y_0)
 ```
 
 * 3 dimensões, ``\vec{S}_0 = (x_0,\, y_0, \, z_0)`` e ``\vec{S}_1 = (x_1,\, y_1,\, z_1)``:
 ```math
-\overrightarrow{\Delta S}_{0,1} = (x_1 - x_0,\, y_1 - y_0, \, z_1 - z_0)
+\Delta \vec{S}_{0,1} = (x_1 - x_0,\, y_1 - y_0, \, z_1 - z_0)
 ```
 
 **Distância ``d_{0,1}`` entre as posições ``\vec{S}_0`` e ``\vec{S}_1`` ou módulo do deslocamento**:
 
 * 1 dimensão, ``\vec{S}_0 = x_0`` e ``\vec{S}_1 = x_1``:
 ```math
-d_{0,1} = \Delta S_{0,1} = |x_1 - x_0|
+d_{0,1} = |\Delta \vec{S}_{0,1}| = |x_1 - x_0|
 ```
 
 * 2 dimensões, ``\vec{S}_0 = (x_0,\, y_0)`` e ``\vec{S}_1 = (x_1,\, y_1)``:
 ```math
-d_{0,1} = \Delta S_{0,1} = \sqrt{(x_1 - x_0)^2 + (y_1 - y_0)^2}
+d_{0,1} = |\Delta \vec{S}_{0,1}| = \sqrt{(x_1 - x_0)^2 + (y_1 - y_0)^2}
 ```
 
 * 3 dimensões, ``\vec{S}_0 = (x_0,\, y_0, \, z_0)`` e ``\vec{S}_1 = (x_1,\, y_1,\, z_1)``:
 ```math
-d_{0,1} = \Delta S_{0,1} = \sqrt{(x_1 - x_0)^2 + (y_1 - y_0)^2 + (z_1 - z_0)^2}
+d_{0,1} = |\Delta \vec{S}_{0,1}| = \sqrt{(x_1 - x_0)^2 + (y_1 - y_0)^2 + (z_1 - z_0)^2}
 ```
 
 **Distância total percorrida ``D_{0,1}`` entre as posições ``\vec{S}_0`` e ``\vec{S}_1``**:
@@ -737,7 +739,7 @@ d_{0,1} = \Delta S_{0,1} = \sqrt{(x_1 - x_0)^2 + (y_1 - y_0)^2 + (z_1 - z_0)^2}
 >A distância total percorrida entre duas posições **sempre depende do caminho percorrido** e sempre será maior ou igual à distância entre essas posições.
 
 ```math
-D_{0,1} \geq \Delta S_{0,1}.
+D_{0,1} \geq |\Delta \vec{S}_{0,1}|.
 ```
 
 """
@@ -905,12 +907,12 @@ begin
 end
 
 # ╔═╡ Cell order:
-# ╠═960d6d9b-6684-4baa-8c5f-a0f5ec34b05c
-# ╠═e1aa4440-cf69-11eb-1dd2-1b847285684d
+# ╟─960d6d9b-6684-4baa-8c5f-a0f5ec34b05c
+# ╟─e1aa4440-cf69-11eb-1dd2-1b847285684d
 # ╟─7db9af1c-de19-4e79-978b-3109a48d427b
 # ╟─be391955-d06e-414b-9b33-6add82c0ded4
 # ╟─acac2ee7-c243-43a0-bb5a-fd1ec63d0eb2
-# ╟─6a1bca68-40d9-4bc3-9131-31de5bab60d5
+# ╠═6a1bca68-40d9-4bc3-9131-31de5bab60d5
 # ╟─9586d30c-67d4-44dc-80ce-9348adeba0e0
 # ╟─865bcf7e-73e2-40f8-aefe-ab393c8de748
 # ╟─da6e713f-43ef-4251-a78a-74847a7369a7
