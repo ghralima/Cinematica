@@ -205,7 +205,7 @@ begin
 	#ponto_A = Point2(rand(-5:5, 2))
 	ponto_A = Point2(-3, 5)
 	#ponto_B = Point2(rand(-5:5, 2))
-	ponto_B = Point2(3, -2)
+	ponto_B = Point2(4, 1)
 	#ponto_C = Point2(rand(-5:5, 2))
 	ponto_C = Point2(-2, -2)
 	points = [ponto_A, ponto_B, ponto_C]
