@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.0
+# v0.19.4
 
 using Markdown
 using InteractiveUtils
@@ -27,6 +27,18 @@ begin
 	using LinearAlgebra, HypertextLiteral, PlutoUI
 	TableOfContents(title = "Índice", depth = 4)
 end
+
+# ╔═╡ 64a133f2-8a40-4855-930c-dea2dab93f7c
+html"""
+<style>
+	main {
+		margin: 0 auto;
+		max-width: 2000px;
+    	padding-left: max(160px, 20%);
+    	padding-right: max(160px, 20%);
+	}
+</style>
+"""
 
 # ╔═╡ 7db9af1c-de19-4e79-978b-3109a48d427b
 CairoMakie.activate!(type = "svg")
@@ -70,66 +82,8 @@ end;
 md"""
 Selecione a posição ``\vec{S}_1`` (em m):
 
-$(@bind xd_1D PlutoUI.Slider(ustrip(x0_1D)-100:ustrip(x0_1D)+100; 
+$(@bind xd_1D PlutoUI.Slider(ustrip(x0_1D)-120:ustrip(x0_1D)+120; 
 	default = x0_1D, show_value = true))
-"""
-
-# ╔═╡ 865bcf7e-73e2-40f8-aefe-ab393c8de748
-begin
-	fig_01 = Figure(resolution = (800, 200), backgroundcolor = :lightgreen)
-	ax_01 = fig_01[1, 1] = Axis(fig_01, aspect = DataAspect(),
-		backgroundcolor = :Gray70,
-		xlabel = "Posição x (m)")
-	
-	x1_1D = xd_1D * 1u"m"
-	
-	hlines!(ax_01, 0, linestyle = :dash, color = :white, linewidth = 3)
-	
-	scatter!(ax_01, [x0, xd_1D], [0, 0], markersize = 20, 
-		color = [(:dodgerblue, 0.3), (:red, 0.5)])
-	
-	arrows!(ax_01, [x0], [0], [xd_1D - x0], [0],
-		color = (:dodgerblue, 0.9),
-		linewidth = 4,
-		arrowsize = 20)
-	
-	text!(ax_01, latexstring("\\vec{S}_{0} = ", x0_1D), position = (x0, 4),
-		align = (:center, :bottom), color = :dodgerblue, textsize = 18)
-	text!(ax_01, latexstring("\\vec{S}_{1} = ",x1_1D), position = (xd_1D, -4),
-		align = (:center, :top), color = :red, textsize = 18)
-	
-	if (xd_1D - x0 >= 0)
-		align_ΔS = :left
-		offset = 8
-	else
-		align_ΔS = :right
-		offset = -8
-	end
-	
-	text!(ax_01, latexstring("Δ\\vec{S} = ", x1_1D - x0_1D), 
-		position = (xd_1D + offset, 0),
-		align = (align_ΔS, :center), color = :green, textsize = 20)
-		
-	ax_01.title = "Deslocamento (1D)"
-	limits!(ax_01, x0 - 140, x0 + 140,  -20, 20)
-	hideydecorations!(ax_01)
-	hidespines!(ax_01)
-	
-	fig_01
-end
-
-# ╔═╡ da6e713f-43ef-4251-a78a-74847a7369a7
-md"""
-No exemplo ilustrado acima, temos um objeto que inicialmente está na posição ``\vec{S}_0 = `` $x0_1D, e se movimenta até a posição ``\vec{S}_1 = `` $x1_1D. O deslocamento desse objeto foi ``\Delta \vec{S} = `` $(x1_1D - x0_1D). De acordo com a convenção utilizada na imagem, um deslocamento positivo indica que o movimento foi para a direita, e um deslocamento negativo indica movimento para a esquerda.
-
-Como no caso da posição, o sinal é importante e, para o deslocamento em 1D, indica o sentido do movimento do objeto.
-
-A distância do objeto em relação à sua posição inicial é dada pelo módulo de seu deslocamento. 
-
-```math
-d_{1,0} = |\Delta \vec{S}| = |x_1 - x_0|.
-```
-**Lembrando que a distância é uma grandeza sempre positiva e, por isso, usamos o módulo do deslocamento!**
 """
 
 # ╔═╡ dc2c63bf-8c31-4849-a1b2-ba12e1065b49
@@ -148,7 +102,8 @@ Abaixo temos a ilustração de um caso onde isso não acontece.
 # ╔═╡ c0cce94d-4982-4fb6-934c-48744c276133
 begin
 	np_1D = 6
-	p_nomes_1D = ["S₀", "S₁", "S₂", "S₃", "S₄", "S₅"]
+	p_nomes_1D = [latexstring("\\vec{S}_0"), latexstring("\\vec{S}_1"), latexstring("\\vec{S}_2"), 
+		latexstring("\\vec{S}_3"), latexstring("\\vec{S}_4"), latexstring("\\vec{S}_5")]
 	cores = [:dodgerblue, :red, :green, :darkorange, :purple, :pink]
 	alpha_x = LinRange(0.3, 0.9, np_1D)
 	cor_x_1D = []
@@ -189,7 +144,7 @@ $(@bind tr_1D PlutoUI.Slider(2:np_1D; show_value = true))
 
 # ╔═╡ 7ea13518-1c1b-4a52-ac50-ff7211a927d3
 begin
-	fig_02 = Figure(resolution = (800, 400), backgroundcolor = :lightgreen)
+	fig_02 = Figure(resolution = (1000, 400), backgroundcolor = :lightgreen)
 	ax_02 = fig_02[1, 1] = Axis(fig_02, aspect = DataAspect(),
 		backgroundcolor = :Gray70,
 		xlabel = "Posição x (m)")
@@ -202,7 +157,7 @@ begin
 			align = (:center, :top),
 			color = :black,
 			textsize = 16)
-	text!(ax_02, string(1u"m"*x_1D[1]),
+	text!(ax_02, latexify(:($(1u"m"*x_1D[1]))),
 			position = (x_1D[1], -10), 
 			align = (:center, :top),
 			color = :black,
@@ -241,9 +196,9 @@ begin
 			position = (x_1D[i+1], -3), 
 			align = (:center, :top),
 			color = :black,
-			textsize = 16)
-		text!(ax_02, string(1u"m"*x_1D[i+1]),
-			position = (x_1D[i+1], -10), 
+			textsize = 18)
+		text!(ax_02, latexify(:($(1u"m"*x_1D[i+1]))),
+			position = (x_1D[i+1], -12), 
 			align = (:center, :top),
 			color = :black,
 			textsize = 16)
@@ -259,9 +214,9 @@ begin
 	end
 	
 	fig_02[2, 1] = vgrid!(
-		Label(fig_02, string("deslocamento: ΔS = ", ΔS_fig02), 
+		Label(fig_02, latexstring("\\mathrm{deslocamento: \\:} \\Delta \\vec{S} = ", ΔS_fig02), 
 			textsize = 20, color = :black),
-		Label(fig_02, string("distância total percorrida: D = ", dist_perc_fig02),
+		Label(fig_02, latexstring("\\mathrm{distância\\: total\\: percorrida: \\:} D = ", dist_perc_fig02),
 			textsize = 20);
 		tellheight = true)
 	
@@ -763,8 +718,68 @@ begin
 		matriz_rotacao = [cos(θ) -sin(θ); sin(θ) cos(θ)]
 		return matriz_rotacao * p
 	end
+
+	fmt(x) = replace(string(x), "." => "{,}")
 	
 end;
+
+# ╔═╡ 865bcf7e-73e2-40f8-aefe-ab393c8de748
+begin
+	fig_01 = Figure(resolution = (1000, 200), backgroundcolor = :lightgreen)
+	ax_01 = fig_01[1, 1] = Axis(fig_01, aspect = DataAspect(),
+		backgroundcolor = :Gray70,
+		xlabel = "Posição x (m)")
+	
+	x1_1D = xd_1D * 1u"m"
+	
+	hlines!(ax_01, 0, linestyle = :dash, color = :white, linewidth = 3)
+	
+	scatter!(ax_01, [x0, xd_1D], [0, 0], markersize = 20, 
+		color = [(:dodgerblue, 0.3), (:red, 0.5)])
+	
+	arrows!(ax_01, [x0], [0], [xd_1D - x0], [0],
+		color = (:green, 0.9),
+		linewidth = 4,
+		arrowsize = 20)
+	
+	text!(ax_01, latexify(:("\\vec{S}_{0}" =  $x0_1D); fmt = fmt), position = (x0, 4),
+		align = (:center, :bottom), color = :dodgerblue, textsize = 18)
+	text!(ax_01, latexify(:("\\vec{S}_{1}" = $x1_1D); fmt = fmt), position = (xd_1D, -4),
+		align = (:center, :top), color = :red, textsize = 18)
+	
+	if (xd_1D - x0 >= 0)
+		align_ΔS = :left
+		offset = 8
+	else
+		align_ΔS = :right
+		offset = -8
+	end
+	
+	text!(ax_01, latexify(:("\\Delta \\vec{S}" = $(x1_1D - x0_1D)); fmt = fmt), 
+		position = (xd_1D + offset, -1),
+		align = (align_ΔS, :bottom), color = :green, textsize = 20)
+		
+	ax_01.title = "Deslocamento (1D)"
+	limits!(ax_01, x0 - 240, x0 + 240,  -20, 20)
+	hideydecorations!(ax_01)
+	hidespines!(ax_01)
+	
+	fig_01
+end
+
+# ╔═╡ da6e713f-43ef-4251-a78a-74847a7369a7
+md"""
+No exemplo ilustrado acima, temos um objeto que inicialmente está na posição ``\vec{S}_0 = `` $x0_1D, e se movimenta até a posição ``\vec{S}_1 = `` $x1_1D. O deslocamento desse objeto foi ``\Delta \vec{S} = `` $(x1_1D - x0_1D). De acordo com a convenção utilizada na imagem, um deslocamento positivo indica que o movimento foi para a direita, e um deslocamento negativo indica movimento para a esquerda.
+
+Como no caso da posição, o sinal é importante e, para o deslocamento em 1D, indica o sentido do movimento do objeto.
+
+A distância do objeto em relação à sua posição inicial é dada pelo módulo de seu deslocamento. 
+
+```math
+d_{1,0} = |\Delta \vec{S}| = |x_1 - x_0|.
+```
+**Lembrando que a distância é uma grandeza sempre positiva e, por isso, usamos o módulo do deslocamento!**
+"""
 
 # ╔═╡ aa1a67b0-ce49-4144-beb0-f83c24c892df
 begin
@@ -785,28 +800,29 @@ begin
 		linewidth = 3,
 		arrowsize = 15)
 	
-	text!(ax_03, string("S₀ = (", s0_2D[1] * 1u"m", " , ", s0_2D[2] * 1u"m", ")"),
+	text!(ax_03, latexstring("\\vec{S}_0 = (", s0_2D[1], "\\,\\mathrm{m} , \\,", s0_2D[2], "\\, \\mathrm{m})"),
 		position = s0_2D + Point2(0.0, 3),
 		align = (:center, :bottom),
 		color = :dodgerblue,
-		textsize = 15)
+		textsize = 18)
 	
-	text!(ax_03, string("S₁ = (", s1_2D[1] * 1u"m", " , ", s1_2D[2] * 1u"m", ")"),
+	text!(ax_03, latexstring("\\vec{S}_0 = (", s1_2D[1], "\\,\\mathrm{m} , \\,", s1_2D[2], "\\, \\mathrm{m})"),
 		position = s1_2D + Point2(0.0, -3),
 		align = (:center, :top),
 		color = :red,
-		textsize = 15)
+		textsize = 18)
 	
 	ΔS_01_2D = 1u"m" .* (s1_2D - s0_2D)
 	
 	if mostrar_ΔS_1
 		θ_ΔS = atan(s1_2D[2] - s0_2D[2], s1_2D[1] - s0_2D[1])
 		pos_ΔS = rotaçao2D(Point2(norm(s1_2D - s0_2D)/2, 4.0), θ_ΔS)
-		text!(ax_03, string("ΔS = (",ΔS_01_2D[1], " , ", ΔS_01_2D[2], " )"), 
+		text!(ax_03, latexstring("\\Delta \\vec{S} = (", ustrip(ΔS_01_2D[1]), "\\, \\mathrm{m} ,\\, ", 
+			ustrip(ΔS_01_2D[2]), "\\, \\mathrm{m} )"), 
 			position = Point2(pos_ΔS) + s0_2D,
 			align = (:center, :center),
 			color = :blue,
-			textsize = 15,
+			textsize = 18,
 			rotation = θ_ΔS)
 	end
 	
@@ -831,15 +847,15 @@ begin
 		color = cor_x_1D[1:np_traj2D],
 		markersize = 15)
 	
-	text!(ax_04, "S₀", position = (traj2D[1][1], traj2D[1][2] + 3),
+	text!(ax_04, L"\vec{S}_0", position = (traj2D[1][1], traj2D[1][2] + 3),
 		align = (:center, :bottom),
 		color = cores[1],
-		textsize = 15)
-	text!(ax_04, string("(", traj2D[1][1]," m, ", traj2D[1][2]," m)"),
+		textsize = 18)
+	text!(ax_04, latexstring("(", traj2D[1][1],"\\,\\mathrm{m}, \\,", traj2D[1][2],"\\, \\mathrm{m})"),
 		position = (traj2D[1][1], traj2D[1][2] - 3),
 		align = (:center, :top),
 		color = :dodgerblue,
-		textsize = 15)
+		textsize = 18)
 		
 	DTotal = 0
 	ΔS_fig04 = traj2D[np_traj2D] - traj2D[1]
@@ -848,13 +864,13 @@ begin
 		text!(ax_04, p_nomes_1D[i], position = (traj2D[i][1], traj2D[i][2] + 3),
 		align = (:center, :bottom),
 		color = cores[i],
-		textsize = 15)
+		textsize = 18)
 		
-		text!(ax_04, string("(", traj2D[i][1]," m, ", traj2D[i][2]," m)"),
+		text!(ax_04, latexstring("(", traj2D[i][1],"\\,\\mathrm{m},\\,", traj2D[i][2],"\\,\\mathrm{m})"),
 		position = (traj2D[i][1], traj2D[i][2] - 3),
 		align = (:center, :top),
 		color = cores[i],
-		textsize = 15)
+		textsize = 18)
 		
 		arrows!(ax_04, [traj2D[i-1][1]], [traj2D[i-1][2]],
 			[(traj2D[i][1] - traj2D[i-1][1])], [(traj2D[i][2] - traj2D[i-1][2])],
@@ -876,11 +892,11 @@ begin
 		local θ_ΔS_04 = atan(ΔS_fig04[2], ΔS_fig04[1])
 		local pos_ΔS_04 = rotaçao2D(Point2(norm(ΔS_fig04)/2, 4.0), θ_ΔS_04)
 		
-		text!(ax_04, string("ΔS = (",ΔS_fig04[1], " m, ", ΔS_fig04[2], " m)"), 
+		text!(ax_04, latexstring("\\Delta \\vec{S} = (",ΔS_fig04[1], "\\,\\mathrm{m}, \\,", ΔS_fig04[2], "\\, \\mathrm{m})"), 
 			position = Point2(pos_ΔS_04) + traj2D[1],
 			align = (:center, :center),
 			color = :black,
-			textsize = 13,
+			textsize = 15,
 			rotation = θ_ΔS_04)
 	end
 	
@@ -888,14 +904,14 @@ begin
 		#Label(fig_04, string("deslocamento: ΔS = (", ΔS_fig04[1], " m, ", 
 		#	ΔS_fig04[2], " m)"), 
 		#	textsize = 16, color = :black),
-		Label(fig_04, string("deslocamento: |ΔS| = ", 
+		Label(fig_04, latexstring("\\mathrm{deslocamento:}\\: |\\Delta \\vec{S}| = ", 
 			replace(string(round(norm(ΔS_fig04), digits = 2)), "." => ","), 
-			" m"), 
-			textsize = 16, color = :black),
-		Label(fig_04, string("distância total percorrida: D = ", 
+			"\\,\\mathrm{m}"), 
+			textsize = 20, color = :black),
+		Label(fig_04, latexstring("\\mathrm{distância\\: total\\: percorrida:}\\: D = ", 
 				replace(string(round(DTotal, digits = 2)), "." => ","),
-				" m"),
-			textsize = 16);
+				"\\, \\mathrm{m}"),
+			textsize = 20);
 		tellheight = true)
 	
 	fe_sublayout2 = GridLayout()
@@ -907,17 +923,18 @@ begin
 end
 
 # ╔═╡ Cell order:
+# ╟─64a133f2-8a40-4855-930c-dea2dab93f7c
 # ╟─960d6d9b-6684-4baa-8c5f-a0f5ec34b05c
 # ╟─e1aa4440-cf69-11eb-1dd2-1b847285684d
 # ╟─7db9af1c-de19-4e79-978b-3109a48d427b
 # ╟─be391955-d06e-414b-9b33-6add82c0ded4
 # ╟─acac2ee7-c243-43a0-bb5a-fd1ec63d0eb2
-# ╠═6a1bca68-40d9-4bc3-9131-31de5bab60d5
+# ╟─6a1bca68-40d9-4bc3-9131-31de5bab60d5
 # ╟─9586d30c-67d4-44dc-80ce-9348adeba0e0
 # ╟─865bcf7e-73e2-40f8-aefe-ab393c8de748
 # ╟─da6e713f-43ef-4251-a78a-74847a7369a7
 # ╟─dc2c63bf-8c31-4849-a1b2-ba12e1065b49
-# ╟─c0cce94d-4982-4fb6-934c-48744c276133
+# ╠═c0cce94d-4982-4fb6-934c-48744c276133
 # ╟─b77ab228-83d0-462e-98c4-a22bde2bd5d4
 # ╟─fd9ebea6-51fd-4ad5-a684-1091382e1874
 # ╟─fa5d1fa9-9cf8-4a66-a15d-b883992d22ce

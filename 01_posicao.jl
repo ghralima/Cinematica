@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.0
+# v0.19.4
 
 using Markdown
 using InteractiveUtils
@@ -28,6 +28,18 @@ begin
 	using HypertextLiteral
 	using LinearAlgebra, Random
 end	
+
+# ╔═╡ f9d6d20a-c3c7-48e4-952d-c4e99bba21a0
+html"""
+<style>
+	main {
+		margin: 0 auto;
+		max-width: 2000px;
+    	padding-left: max(160px, 20%);
+    	padding-right: max(160px, 20%);
+	}
+</style>
+"""
 
 # ╔═╡ 39613139-84d2-4843-acab-45f02914ee90
 PlutoUI.TableOfContents(title = "Índice", depth = 4, aside = true)
@@ -875,10 +887,10 @@ begin
 				textsize = 15)
 		end
 		
-		limits!(ax_04, -6 - ponto_C[1], 6 - ponto_C[1], -6 - ponto_C[2], 
-			6 - ponto_C[2])
-		ax_04.xticks = -6 - ponto_C[1]:1:6 - ponto_C[1]
-		ax_04.yticks = -6 - ponto_C[2]:1:6 - ponto_C[2]
+		limits!(ax_04, -8 - ponto_C[1], 8 - ponto_C[1], -8 - ponto_C[2], 
+			8 - ponto_C[2])
+		ax_04.xticks = -8 - ponto_C[1]:1:8 - ponto_C[1]
+		ax_04.yticks = -8 - ponto_C[2]:1:8 - ponto_C[2]
 	else
 		scatter!(ax_04, points, markersize = 15, color = [:red, :green, :blue])
 		scatter!(ax_04, Point2(0), markersize = 15, marker = :rect, color = :black)
@@ -933,6 +945,7 @@ escrever_posicao(ponto_3B, "B", "cm")
 escrever_posicao(ponto_3A-ponto_3B, "A_{B}", "cm")
 
 # ╔═╡ Cell order:
+# ╟─f9d6d20a-c3c7-48e4-952d-c4e99bba21a0
 # ╟─c0c2b95c-8d6d-4219-9fe8-b28c6b05f5e0
 # ╟─6c978cdd-a550-4d0f-97c4-63741ef2010c
 # ╟─39613139-84d2-4843-acab-45f02914ee90

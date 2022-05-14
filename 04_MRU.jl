@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.8
+# v0.19.4
 
 using Markdown
 using InteractiveUtils
@@ -7,8 +7,9 @@ using InteractiveUtils
 # This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
 macro bind(def, element)
     quote
+        local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
         local el = $(esc(element))
-        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : missing
+        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
         el
     end
 end
@@ -28,6 +29,18 @@ begin
 	using LinearAlgebra
 	using HypertextLiteral
 end
+
+# ╔═╡ 7c441144-dd5f-454b-b017-e6e644db6758
+html"""
+<style>
+	main {
+		margin: 0 auto;
+		max-width: 2000px;
+    	padding-left: max(160px, 20%);
+    	padding-right: max(160px, 20%);
+	}
+</style>
+"""
 
 # ╔═╡ 84496be3-9062-494c-bdad-12736c9d9dba
 TableOfContents(title = "Índice", depth = 4)
@@ -76,19 +89,19 @@ end;
 begin
 	#definindo observáveis
 	#posição no instante t
-	xt1d = Node(Float64(s01d))
+	xt1d = Observable(Float64(s01d))
 	
 	#marcação do instante t
-	cron1d = Node(zero(Float64))
+	cron1d = Observable(zero(Float64))
 	
 	#marcações da posição
-	xticks_vec = Node([0, Float64(s01d)])
+	xticks_vec = Observable([0, Float64(s01d)])
 	
 	#texto das marcações de tempo
-	tstr_vec = Node([string("t = 0 s")])
+	tstr_vec = Observable([string("t = 0 s")])
 	
 	#posições das marcações de tempo
-	posstr_vec = Node([Point2f0(s01d, 1.5)])
+	posstr_vec = Observable([Point2f(s01d, 1.5)])
 	
 	#definindo dados e posições para a animação
 	framerate = 12
@@ -161,7 +174,7 @@ begin
 	hidespines!(ax_02, :b, :t, :r)
 
 	#gerando animação
-	CairoMakie.Makie.Record(fig_01, 1:nframes; framerate = framerate) do i
+	record(fig_01, "mru_01.mp4", 1:nframes; framerate = framerate) do i
 		ttemp = (i-1)/framerate
 		xtemp = ss01(s01d, vm1d, ttemp)
 		xt1d[] =  i < nframes ? xtemp : s11d
@@ -169,9 +182,10 @@ begin
 		if (i-1) % (4*framerate) == 0 && i ≠ 1
 			xticks_vec[] = push!(xticks_vec[], xtemp)
 			tstr_vec[] = push!(tstr_vec[], string("t = ", ttemp, " s"))
-			posstr_vec[] = push!(posstr_vec[], Point2f0(xtemp, 1.5))
+			posstr_vec[] = push!(posstr_vec[], Point2f(xtemp, 1.5))
 		end
 	end
+	LocalResource("./mru_01.mp4")
 end
 
 # ╔═╡ 77da6859-b932-4555-b06f-9223d72c977d
@@ -197,19 +211,19 @@ end;
 begin
 	#definindo observáveis
 	#posição no instante t
-	xt1d2 = Node(Float64(s01d))
+	xt1d2 = Observable(Float64(s01d))
 	
 	#marcação do instante t
-	cron1d2 = Node(zero(Float64))
+	cron1d2 = Observable(zero(Float64))
 	
 	#marcações da posição
-	xticks_vec2 = Node([0, Float64(s01d)])
+	xticks_vec2 = Observable([0, Float64(s01d)])
 	
 	#texto das marcações de tempo
-	tstr_vec2 = Node([string("t = 0 s")])
+	tstr_vec2 = Observable([string("t = 0 s")])
 	
 	#posições das marcações de tempo
-	posstr_vec2 = Node([Point2f0(s01d, 1.5)])
+	posstr_vec2 = Observable([Point2f(s01d, 1.5)])
 	
 	#definindo dados e posições para a animação
 	nframes2 = Int64(ceil(Δt21d*framerate, digits = 0))
@@ -282,7 +296,7 @@ begin
 	hidespines!(ax2_2, :b, :t, :r)
 
 	#gerando animação
-	CairoMakie.Makie.Record(fig_02, 1:nframes2; framerate = framerate) do i
+	record(fig_02, "mru_02.mp4", 1:nframes2; framerate = framerate) do i
 		ttemp = (i-1)/framerate
 		xtemp = ss01(s01d, vm21d, ttemp)
 		xt1d2[] =  i < nframes2 ? xtemp : s21d
@@ -290,9 +304,11 @@ begin
 		if (i-1) % (4*framerate) == 0 && i ≠ 1
 			xticks_vec2[] = push!(xticks_vec2[], xtemp)
 			tstr_vec2[] = push!(tstr_vec2[], string("t = ", ttemp, " s"))
-			posstr_vec2[] = push!(posstr_vec2[], Point2f0(xtemp, 1.5))
+			posstr_vec2[] = push!(posstr_vec2[], Point2f(xtemp, 1.5))
 		end
 	end
+
+	LocalResource("./mru_02.mp4")
 end
 
 # ╔═╡ 53bf7f54-d841-483c-8538-0f69d8f5bc64
@@ -388,14 +404,14 @@ begin
 	trand2 = rand(1:0.1:30)
 	
 	if trand1 < trand2
-		px_01 = Point2f0(trand1, ss01(s01d, vm1d, trand1))
-		px_02 = Point2f0(trand2, ss01(s01d, vm1d, trand2))
+		px_01 = Point2f(trand1, ss01(s01d, vm1d, trand1))
+		px_02 = Point2f(trand2, ss01(s01d, vm1d, trand2))
 	elseif trand1 > trand2
-		px_01 = Point2f0(trand2, ss01(s01d, vm1d, trand2))
-		px_02 = Point2f0(trand1, ss01(s01d, vm1d, trand1))
+		px_01 = Point2f(trand2, ss01(s01d, vm1d, trand2))
+		px_02 = Point2f(trand1, ss01(s01d, vm1d, trand1))
 	else
-		px_01 = Point2f0(trand1, ss01(s01d, vm1d, trand1))
-		px_02 = Point2f0(trand2, ss01(s01d, vm1d, trand2 + 2))
+		px_01 = Point2f(trand1, ss01(s01d, vm1d, trand1))
+		px_02 = Point2f(trand2, ss01(s01d, vm1d, trand2 + 2))
 	end
 end;	
 
@@ -672,9 +688,9 @@ begin
 		
 		str_label = string("Objeto $i: v $simbm 0")
 		
-		lines!(ax4_1, [Point2f0(0, s01d), Point2f0(t_fim, exx_fim[i])], linewidth = 2, 
+		lines!(ax4_1, [Point2f(0, s01d), Point2f(t_fim, exx_fim[i])], linewidth = 2, 
 				color = ccor[i], label = str_label)
-		scatter!(ax4_1, Point2f0(12, exx_t12[i]), markersize = 20, color = ccor[i],
+		scatter!(ax4_1, Point2f(12, exx_t12[i]), markersize = 20, color = ccor[i],
 			marker = mmark[i])
 		text!(ax4_1, 
 			string("S(12 s) = $(trocarpontovirgtexto(exx_t12[i], digits = 2)) m"),
@@ -874,7 +890,7 @@ begin
 	
 	lines!(ax6_1, [0, 30], [s01d, exx_fim[2]], color = :green, linewidth = 2)
 	
-	scatter!(ax6_1, [Point2f0(0.0, s01d), Point2f0(12.0, exx_t12[2])], color = :green,
+	scatter!(ax6_1, [Point2f(0.0, s01d), Point2f(12.0, exx_t12[2])], color = :green,
 		marker = :diamond, markersize = 20)
 	
 	text!(ax6_1, 
@@ -1041,8 +1057,8 @@ latexstring("A_{\\rm retângulo} = $(trocarpontovirglatex(vobj1d[1] * (px_02[1] 
 
 # ╔═╡ ebaa5fe4-3d29-4cec-a200-922e439154d7
 begin
-	px2_01 = Point2f0(px_01[1], ss01(s01d, vobj1d[2], px_01[1]))
-	px2_02 = Point2f0(px_02[1], ss01(s01d, vobj1d[2], px_02[1]))
+	px2_01 = Point2f(px_01[1], ss01(s01d, vobj1d[2], px_01[1]))
+	px2_02 = Point2f(px_02[1], ss01(s01d, vobj1d[2], px_02[1]))
 	
 	fig_08 = Figure(resolution = (800, 800), backgroundcolor = :gray90)
 	ax8_1 = fig_08[1, 1] = Axis(fig_08, 
@@ -1163,6 +1179,7 @@ latexstring("A_{\\rm retângulo} =
 latexstring("A_{\\rm retângulo} = $(trocarpontovirglatex(vobj1d[2] * (px2_02[1] - px2_01[1]), digits = 1)) {\\rm \\, m}")
 
 # ╔═╡ Cell order:
+# ╟─7c441144-dd5f-454b-b017-e6e644db6758
 # ╟─0d61cb90-db3a-11eb-116b-3b8d57786ec7
 # ╟─3bdd4c91-2d0d-49a8-ac0c-22285cb54ef6
 # ╟─84496be3-9062-494c-bdad-12736c9d9dba

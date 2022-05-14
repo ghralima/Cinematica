@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.8
+# v0.19.4
 
 using Markdown
 using InteractiveUtils
@@ -20,6 +20,18 @@ begin
 	using HypertextLiteral
 end
 
+# ╔═╡ abe7637e-24c8-405d-8ce8-d913dd52c008
+html"""
+<style>
+	main {
+		margin: 0 auto;
+		max-width: 2000px;
+    	padding-left: max(160px, 20%);
+    	padding-right: max(160px, 20%);
+	}
+</style>
+"""
+
 # ╔═╡ 2f5dd3cb-ec3c-4dca-87de-43f025582f95
 TableOfContents(title = "Índice", depth = 4)
 
@@ -27,7 +39,7 @@ TableOfContents(title = "Índice", depth = 4)
 md"""
 ## 1.3. Instante de tempo (``t``) e intervalo de tempo (``\Delta t``)
 
-Além do deslocamento (``\overrightarrow{\Delta S}``), outra grandeza que é importante na descrição do movimento de um objeto é o intervalo de tempo  (``\Delta t``) necessário para a realização desse deslocamento. Dois objetos diferentes podem realizar o mesmo deslocamento (``\overrightarrow{\Delta S}``), mas se o objeto 1 demora um tempo ``\Delta t_{1}`` para completar o deslocamento, e o objeto 2 demora um tempo ``\Delta t_{2}`` para completá-lo, e ``\Delta t_{1} \neq \Delta t_{2}``, então, um dos objetos completou o deslocamento mais rapidamente que o outro. Os movimentos dos dois objetos são diferentes.
+Além do deslocamento (``\Delta \vec{S}``), outra grandeza que é importante na descrição do movimento de um objeto é o intervalo de tempo  (``\Delta t``) necessário para a realização desse deslocamento. Dois objetos diferentes podem realizar o mesmo deslocamento (``\Delta \vec{S}``), mas se o objeto 1 demora um tempo ``\Delta t_{1}`` para completar o deslocamento, e o objeto 2 demora um tempo ``\Delta t_{2}`` para completá-lo, e ``\Delta t_{1} \neq \Delta t_{2}``, então, um dos objetos completou o deslocamento mais rapidamente que o outro. Os movimentos dos dois objetos são diferentes.
 
 O instante de tempo representa o momento em que um certo evento ocorreu. Para medi-lo podemos usar o horário em que o evento ocorreu, ou o tempo que estava marcado em algum dispositivo de medição de tempo. Já o intervalo de tempo ``\Delta t`` é uma grandeza que representa o tempo decorrido entre dois eventos. Por exemplo, no caso de um deslocamento, se o objeto parte de sua posição inicial no instante ``t_0`` e chega ao seu destino no instante ``t_1``, o intervalo de tempo representa o tempo decorrido entre os instantes ``t_0`` e ``t_1``:
 
@@ -41,7 +53,7 @@ Para medir instantes ou intervalos de tempo podemos utilizar várias unidades:  
 
 A tabela abaixo mostra a relação entre as unidades de tempo:
 
-| X | s | min | h | d | ano |
+|  | s | min | h | d | ano |
 |:--|:--:|:--:|:--:|:--:|:--:|
 |1 s | 1| 1/60| 1/3.600| 1/86.400| 1/31.556.925|
 |1 min | 60| 1 | 1/60 | 1/1.440| 1/525.948,75 |
@@ -57,10 +69,10 @@ O ano é uma unidade definida a partir de com fenômenos astronômicos e pode se
 md"""
 ## 1.4. Velocidade média (``\vec{v}_{\rm med}``)
 
-A grandeza que representa a rapidez com que um objeto se deslocou de uma certa posição inicial até uma outra posição qualquer é chamada de velocidade média (``\vec{v}_{\rm med}``). A velocidade média de um objeto, portanto, depende de seu deslocamento ``\overrightarrow{\Delta S}`` entre essas duas posições, e do tempo decorrido ``\Delta t`` durante esse movimento, e pode ser calculada como:
+A grandeza que representa a rapidez com que um objeto se deslocou de uma certa posição inicial até uma outra posição qualquer é chamada de velocidade média (``\vec{v}_{\rm med}``). A velocidade média de um objeto, portanto, depende de seu deslocamento ``\Delta \vec{S}`` entre essas duas posições, e do tempo decorrido ``\Delta t`` durante esse movimento, e pode ser calculada como:
 
 ```math
-\vec{v}_{med} = \frac{\overrightarrow{\Delta S}}{\Delta t}.
+\vec{v}_{med} = \frac{\Delta \vec{S}}{\Delta t}.
 ```
 
 **Como a velocidade média depende do deslocamento, ela terá a mesma quantidade de componentes que o deslocamento**: apenas uma componente no caso unidimensional; duas componentes no caso bidimensional; e três componentes no caso tridimensional.
@@ -103,7 +115,7 @@ md"""
 Quando temos apenas 1 dimensão, o deslocamento do objeto pode ser descrito utilizando apenas uma medida (positiva ou negativa), portanto, a velocidade terá apenas um valor também, e, da mesma forma, este valor poderá ser positivo ou negativo:
 
 ```math
-\vec{v}_{\rm med} = \frac{\overrightarrow{\Delta S}}{\Delta t} = \frac{\Delta x}{\Delta t}, \qquad \Delta x = x_1 - x_0.
+\vec{v}_{\rm med} = \frac{\Delta \vec{S}}{\Delta t} = \frac{\Delta x}{\Delta t}, \qquad \Delta x = x_1 - x_0.
 ```
 
 ``\Delta x`` representa o deslocamento em uma dimensão, ``x_1`` é a posição final e ``x_0`` é a posição inicial.
@@ -126,76 +138,6 @@ end;
 # ╔═╡ fc368cb2-d469-4039-aa1b-1b4d77af55e8
 Δt = rand(10:0.1:20);
 
-# ╔═╡ cd56ffd5-c110-4b99-ac96-824a8ff7d787
-begin
-	fig_01 = Figure(resolution = (800, 200), backgroundcolor = :lightgreen)
-	ax_01 = fig_01[1, 1] = Axis(fig_01, aspect = DataAspect(),
-		backgroundcolor = :Gray70,
-		xlabel = "Posição x (m)")
-	
-	hlines!(ax_01, 0, linestyle = :dash, color = :white, linewidth = 3)
-	
-	text!(ax_01, string("S₀ = ",s0_1D), position = (x0, 3),
-		align = (:left, :bottom), color = :black, textsize = 15)
-	
-	scatter!(ax_01, Point2f0(x0, 0), markersize = 15, color = (:black, 0.5))
-	
-	ax_01.title = "Deslocamento (1D)"
-	limits!(ax_01, x0 - 140, x0 + 140,  -20, 20)
-	hideydecorations!(ax_01)
-	hidespines!(ax_01)
-	
-	framerate = 15
-	nframes = framerate*Int64(ceil(Δt, digits = 0))
-	traj_1d = range(x0,x1,length = nframes)
-
-	xt1d = Node(Float64(x0))
-	cron1d = Node(zero(Float64))
-	scatter!(ax_01, @lift(Point2($xt1d, 0)), markersize = 15, 
-		color = :dodgerblue)
-	
-	arrows!(ax_01, [x0], [0], @lift([$xt1d - x0]), [0], arrowsize = 15,
-		color = (:red, 0.5), linewidth = 3)
-	
-	text!(ax_01, @lift(string("S₁ = ", round($xt1d, digits = 1), " m")), 
-		position = @lift(Point2($xt1d, -3)),
-		align = (:center, :top), color = :red, textsize = 15)
-	
-	if (x1-x0) < 0
-		alinh_ΔS = :right
-		offset_ΔS = -5
-	else
-		alinh_ΔS = :left
-		offset_ΔS = 5
-	end
-	
-	text!(ax_01, "ΔS", 
-		position = @lift(Point2($xt1d + offset_ΔS, 0)),
-		align = (alinh_ΔS, :bottom), color = :red, textsize = 15)
-	
-	text!(ax_01, @lift(string("t = ", round($cron1d, digits = 1), " s")),
-		position = (x0 + 120, -18),
-		align = (:right, :bottom),
-		color = :black,
-		textsize = 15)
-	
-	
-	CairoMakie.Makie.Record(fig_01, 1:nframes+2*framerate; framerate = framerate) do i
-		xt1d[] =  i < nframes ? traj_1d[i] : x1
-		cron1d[] = i < nframes ? (i-1)/framerate : Δt
-		#sleep(1/framerate)
-	end
-	
-	#record(fig_01, "trajetoria_1d.mp4", 1:nframes+2*framerate; 
-	#	framerate = framerate) do i
-	#		xt1d[] =  i < nframes ? traj_1d[i+1] : x1
-	#		cron1d[] = i < nframes ? i/framerate : Δt
-	#end
-	
-	#video_01_file = "d:\\entro\\Documents\\Julia Codes\\Cadernos\\Cinemática - Pessoal\\trajetoria_1d.mp4"
-	#LocalResource(video_01_file)
-end
-
 # ╔═╡ efeb2879-1ce5-4852-9292-875f61970d02
 md"""
 O deslocamento durante o intervalo de tempo mostrado na animação foi:
@@ -204,7 +146,7 @@ O deslocamento durante o intervalo de tempo mostrado na animação foi:
 # ╔═╡ 97d58aec-9a61-444a-a90f-259d0e23d971
 begin
 	ΔS_1D = s1_1D - s0_1D
-	latexify(:("\\overrightarrow{ΔS}" = $s1_1D - $s0_1D = $ΔS_1D))
+	latexify(:("Δ\\vec{S}" = $s1_1D - $s0_1D = $ΔS_1D))
 end
 
 # ╔═╡ 7312ca30-f370-40a8-be97-168d66b30bd6
@@ -217,7 +159,7 @@ begin
 	Δt1d = Δt*1u"s"
 	vmed1d = (s1_1D - s0_1D)/(Δt1d)
 	latexstring("\\vec{v}_{\\rm med} = 
-		\\frac{\\overrightarrow{\\Delta S}}{\\Delta t} = \\frac{",
+		\\frac{\\Delta \\vec{S}}{\\Delta t} = \\frac{",
 		x1 - x0,"\\rm{\\, m}}{", 
 		replace(string(Δt), "." => "{,}"), "\\rm{\\, s}} = ",
 		replace(string(round(ustrip(vmed1d), sigdigits = 3)), "." => "{,}"),
@@ -238,7 +180,7 @@ md"""
 Quando estamos analisando o movimento em duas dimensões, sabemos que o deslocamento tem duas componentes e, portanto, a velocidade média também terá duas componentes:
 
 ```math
-\vec{v}_{\rm med} = \frac{\overrightarrow{\Delta S}}{\Delta t} = \left( \frac{\Delta x}{\Delta t}, \, \frac{\Delta y}{\Delta t} \right),
+\vec{v}_{\rm med} = \frac{\Delta \vec{S}}{\Delta t} = \left( \frac{\Delta x}{\Delta t}, \, \frac{\Delta y}{\Delta t} \right),
 ```
 
 onde ``\Delta x = x_1 - x_0`` e ``\Delta y = y_1 - y_0``. A primeira componente  da velocidade média ``\left(\Delta x / \Delta t\right)`` representa a velocidade média na direção ``x`` , e a segunda componente ``\left(\Delta y / \Delta t\right)`` representa a velocidade média na direção ``y``. 
@@ -247,10 +189,10 @@ onde ``\Delta x = x_1 - x_0`` e ``\Delta y = y_1 - y_0``. A primeira componente 
 """
 
 # ╔═╡ a506c64d-9873-4d4d-893d-1fa6d05f264c
-x02d = Point2f0(rand(-100:100, 2));
+x02d = Point2f(rand(-100:100, 2));
 
 # ╔═╡ 0cf36440-d6ab-44fa-b83c-6850be4b7136
-x12d = Point2f0(rand(-100:100, 2));
+x12d = Point2f(rand(-100:100, 2));
 
 # ╔═╡ 1b24d84b-8827-4f25-bb03-67734c90ab4c
 begin
@@ -259,7 +201,7 @@ begin
 	frames2d = Δt2d * framerate2d
 	traj_x_2d = range(x02d[1], x12d[1], length = frames2d)
 	traj_y_2d = range(x02d[2], x12d[2], length = frames2d)
-	traj2d = [Point2f0(traj_x_2d[i], traj_y_2d[i]) for i ∈ 1:frames2d]
+	traj2d = [Point2f(traj_x_2d[i], traj_y_2d[i]) for i ∈ 1:frames2d]
 end;
 
 # ╔═╡ 470de65e-672b-4e36-84f5-34c72f0e03d5
@@ -282,59 +224,6 @@ O tempo decorrido durante esse deslocamento foi:
 begin
 	Δt2du = Δt2d*1u"s"
 	latexify(:("\\Delta t" = $Δt2du))
-end
-
-# ╔═╡ dc8b439b-da3a-4aaf-874c-02843b4d38f8
-begin
-	fig_02 = Figure(resolution = (800, 800), backgroundcolor = :gray80)
-	ax_02 = fig_02[1, 1] = Axis(fig_02, aspect = DataAspect(),
-		backgroundcolor = :white,
-		xlabel = "Posição x (m)",
-		ylabel = "Posição y (m)",
-		title = "Movimento 2D")
-	
-	scatter!(ax_02, Point2(0), marker = :rect, color = :black)
-	scatter!(ax_02, x02d, marker = :circle, markersize = 20, 
-		color = (:blue, 0.5))
-	text!(ax_02, string("S₀ = (", x02d[1]," m, ", x02d[2], " m)"),
-		position = (x02d[1]+5, x02d[2]-5),
-		align = (:center, :center),
-		color = :blue,
-		textsize = 16)
-	
-	st2d = Node(x02d)
-	cron2d = Node(zero(Float64))
-	
-	scatter!(ax_02, st2d, marker = :circle, markersize = 20,
-		color = :dodgerblue)
-	
-	text!(ax_02, @lift(string("S₁ = (", round($st2d[1], digits = 1), " m, ",
-				round($st2d[2], digits = 1), " m)")),
-			position = @lift(Point2f0($st2d[1] -5, $st2d[2] + 5)),
-			align = (:center, :center),
-			color = :dodgerblue,
-			textsize = 16)
-	
-	text!(ax_02, @lift(string("Δt = ", round($cron2d, digits = 1), " s.")),
-		position = (110, 110),
-		align = (:right, :top),
-		color = :black,
-		textsize = 18)
-	
-	arrows!(ax_02, [x02d[1]], [x02d[2]], @lift([$st2d[1] - x02d[1]]),
-		@lift([$st2d[2] - x02d[2]]),
-		linewidth = 3,
-		arrowsize = 18,
-		color = (:red, 0.9))
-	
-	limits!(ax_02, -120, 120, -120, 120)
-	
-	CairoMakie.Makie.Record(fig_02, 1:frames2d+2*framerate2d; 
-		framerate = framerate2d) do i
-		
-		st2d[] = i < frames2d ? traj2d[i+1] : x12d
-		cron2d[] = i < frames2d ? (i-1)/framerate : Δt2d
-	end
 end
 
 # ╔═╡ ea2e6558-1412-4fe8-a054-5628d8c77b05
@@ -421,7 +310,7 @@ begin
 		s01_str = s0[1] < 0 ? string("+", adicionar_unidade(abs(s0_arr[1]))) : string("-", adicionar_unidade(s0_arr[1]))
 		s02_str = s0[2] < 0 ? string("+", adicionar_unidade(abs(s0_arr[2]))) : string("-", adicionar_unidade(s0_arr[2]))
 
-		latexstring("\\overrightarrow{\\Delta S} = (", adicionar_unidade(s1_arr[1]),
+		latexstring("\\Delta \\vec{S} = (", adicionar_unidade(s1_arr[1]),
 			s01_str,", \\,", adicionar_unidade(s1_arr[2]), s02_str, ") = (",
 			adicionar_unidade(s1_arr[1] - s0_arr[1]), ",\\,", 
 			adicionar_unidade(s1_arr[2] - s0_arr[2]), ")")
@@ -444,7 +333,7 @@ begin
 		
 		
 		latexstring("\\vec{v}_{\\rm med} = 
-			\\frac{\\overrightarrow{\\Delta S}}{\\Delta t} = 
+			\\frac{\\Delta \\vec{S}}{\\Delta t} = 
 			\\left( \\frac{", ad_ucomp(ΔS_arr[1]),"}{", ad_utemp(Δt_arr),
 			"},\\frac{", ad_ucomp(ΔS_arr[2]), "}{", ad_utemp(Δt_arr),
 			"}\\right) = \\left(", ad_uvel(vmed_arr[1]), ",\\,",
@@ -460,6 +349,8 @@ begin
 		x_arr = (digits == 0 ? round(Int, x) : round(x; digits = digits))
 		replace(string(x_arr), "." => "{,}")
 	end
+
+	fmt(x) = replace(string(x), "." => "{,}")
 end
 
 # ╔═╡ 599a24c1-afb8-4173-b820-15ecd58f64c7
@@ -468,6 +359,71 @@ md"
 A animação abaixo mostra um objeto se movendo de sua posição inicial ``\vec{S}_0`` = $s0_1D, até a posição final ``\vec{S}_1 =`` $s1_1D, em um intervalo de tempo ``\Delta t = `` $(trocarpontovirgtexto(Δt; digits = 1)) s.
 "
 
+# ╔═╡ cd56ffd5-c110-4b99-ac96-824a8ff7d787
+begin
+	fig_01 = Figure(resolution = (1000, 250), backgroundcolor = :lightgreen)
+	ax_01 = fig_01[1, 1] = Axis(fig_01, aspect = DataAspect(),
+		backgroundcolor = :Gray70,
+		xlabel = "Posição x (m)")
+	
+	hlines!(ax_01, 0, linestyle = :dash, color = :white, linewidth = 3)
+	
+	#text!(ax_01, string("S₀ = ",s0_1D), position = (x0, 3),
+	text!(ax_01, latexify(:("\\vec{S}_0" = $s0_1D)), position = (x0, 3),
+		align = (:left, :bottom), color = :black, textsize = 17)
+	
+	scatter!(ax_01, Point2f(x0, 0), markersize = 15, color = (:black, 0.5))
+	
+	ax_01.title = "Deslocamento (1D)"
+	limits!(ax_01, x0 - 140, x0 + 140,  -20, 20)
+	hideydecorations!(ax_01)
+	hidespines!(ax_01)
+
+	framerate = 15
+	nframes = framerate*Int64(ceil(Δt, digits = 0))
+	traj_1d = range(x0,x1,length = nframes)
+
+	xt1d = Observable(Float64(x0))
+	cron1d = Observable(zero(Float64))
+	scatter!(ax_01, @lift(Point2f($xt1d, 0)), markersize = 15, 
+		color = :dodgerblue)
+
+	arrows!(ax_01, [x0], [0], @lift([$xt1d - x0]), [0], arrowsize = 15,
+		color = (:red, 0.5), linewidth = 3)
+	text!(ax_01, 
+		@lift(latexstring("\\vec{S}_1 = ", trocarpontovirglatex($xt1d, digits = 1), " \\, \\mathrm{m}")), 
+		position = @lift(Point2f($xt1d, -3)),
+		align = (:center, :top), color = :red, textsize = 17)
+
+	if (x1-x0) < 0
+		alinh_ΔS = :right
+		offset_ΔS = -5
+	else
+		alinh_ΔS = :left
+		offset_ΔS = 5
+	end
+	
+	text!(ax_01, L"Δ\vec{S}", 
+		position = @lift(Point2f($xt1d + offset_ΔS, 0)),
+		align = (alinh_ΔS, :bottom), color = :red, textsize = 17)
+	
+	#text!(ax_01, @lift(string("t = ", round($cron1d, digits = 1), " s")),
+	text!(ax_01, @lift(latexstring("t = ", trocarpontovirglatex($cron1d, digits = 1), " \\, \\mathrm{s}")),
+		position = (x0 + 120, -18),
+		align = (:right, :bottom),
+		color = :black,
+		textsize = 17)
+
+	record(fig_01, "traj_1D.mp4", 1:nframes+2*framerate; framerate = framerate) do i
+		xt1d[] =  (i < nframes ? traj_1d[i] : x1)
+		cron1d[] = (i < nframes ? (i-1)/framerate : Δt)
+		notify.((xt1d, cron1d))
+		sleep(1/framerate)
+	end
+
+	LocalResource("./traj_1D.mp4")
+end
+
 # ╔═╡ fed98808-856c-450c-9535-bd7b39bb1158
 latexstring("\\vec{S}_0 = (",trocarpontovirglatex(x02d[1]),"\\rm{\\, m},\\,",
 	trocarpontovirglatex(x02d[2]), "\\rm{\\, m}),")
@@ -475,6 +431,65 @@ latexstring("\\vec{S}_0 = (",trocarpontovirglatex(x02d[1]),"\\rm{\\, m},\\,",
 # ╔═╡ 48a72747-76df-46dd-847e-526dacd6e748
 latexstring("\\vec{S}_1 = (",trocarpontovirglatex(x12d[1]),"\\rm{\\, m},\\,",
 	trocarpontovirglatex(x12d[2]), "\\rm{\\, m}).")
+
+# ╔═╡ dc8b439b-da3a-4aaf-874c-02843b4d38f8
+begin
+	fig_02 = Figure(resolution = (800, 800), backgroundcolor = :gray80)
+	ax_02 = fig_02[1, 1] = Axis(fig_02, aspect = DataAspect(),
+		backgroundcolor = :white,
+		xlabel = "Posição x (m)",
+		ylabel = "Posição y (m)",
+		title = "Movimento 2D")
+	
+	scatter!(ax_02, Point2(0), marker = :rect, color = :black)
+	scatter!(ax_02, x02d, marker = :circle, markersize = 20, 
+		color = (:blue, 0.5))
+	text!(ax_02, 
+		latexstring("\\vec{S}_0 = (", trocarpontovirglatex(x02d[1], digits = 1),
+			"\\, \\mathrm{m}, \\:", trocarpontovirglatex(x02d[2], digits = 1), 
+			"\\, \\mathrm{m})"),
+		position = (x02d[1]+5, x02d[2]-5),
+		align = (:center, :center),
+		color = :blue,
+		textsize = 18)
+	
+	st2d = Observable(x02d)
+	cron2d = Observable(zero(Float64))
+	
+	scatter!(ax_02, st2d, marker = :circle, markersize = 20,
+		color = :dodgerblue)
+	
+	text!(ax_02, 
+		@lift(latexstring("\\vec{S}_1 = (", trocarpontovirglatex($st2d[1], digits = 1), "\\, \\mathrm{m}, \\: ",
+				trocarpontovirglatex($st2d[2], digits = 1), "\\, \\mathrm{m})")),
+			position = @lift(Point2f($st2d[1] -5, $st2d[2] + 5)),
+			align = (:center, :center),
+			color = :dodgerblue,
+			textsize = 18)
+	
+	text!(ax_02, @lift(latexstring("\\Delta t = ", trocarpontovirglatex($cron2d, digits = 1), " \\, \\mathrm{s}")),
+		position = (110, 110),
+		align = (:right, :top),
+		color = :black,
+		textsize = 18)
+	
+	arrows!(ax_02, [x02d[1]], [x02d[2]], @lift([$st2d[1] - x02d[1]]),
+		@lift([$st2d[2] - x02d[2]]),
+		linewidth = 3,
+		arrowsize = 18,
+		color = (:red, 0.9))
+	
+	limits!(ax_02, -120, 120, -120, 120)
+	
+	CairoMakie.Makie.record(fig_02, "traj_2D.mp4", 1:frames2d+2*framerate2d; 
+		framerate = framerate2d) do i
+		
+		st2d[] = i < frames2d ? traj2d[i+1] : x12d
+		cron2d[] = i < frames2d ? (i-1)/framerate : Δt2d
+	end
+
+	LocalResource("./traj_2D.mp4")
+end
 
 # ╔═╡ e0fb68a0-eb8d-4797-bfbc-014c5d322c56
 begin
@@ -580,6 +595,7 @@ latexstring("v_{\\rm med} = ",
 	"\\rm{\\, m \\, s^{-1}}.")
 
 # ╔═╡ Cell order:
+# ╠═abe7637e-24c8-405d-8ce8-d913dd52c008
 # ╟─912a438e-2163-4f6f-9fe5-dcac17e45e6a
 # ╟─0f796ad0-d790-11eb-31ac-5fee2b23265c
 # ╟─2f5dd3cb-ec3c-4dca-87de-43f025582f95
